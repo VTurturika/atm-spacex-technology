@@ -31,6 +31,8 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void testConnection() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        assertTrue(connector.testConnection());
     }
 
     @org.junit.Test

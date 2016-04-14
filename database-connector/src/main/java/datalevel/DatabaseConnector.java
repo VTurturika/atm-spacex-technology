@@ -1,12 +1,16 @@
 package datalevel;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 /**
  * Implements connection with Bank.
  * Sends specified requests to server and returns data to model
  */
 public class DatabaseConnector {
 
-    String databaseLocation = "";
+    String databaseLocation = "http://localhost";
 
     /**
      * Checks PIN code of credit card
@@ -77,7 +81,15 @@ public class DatabaseConnector {
      * @return {@code true} if connection is success, else returns {@code false}
      */
     public boolean testConnection() {
-        return false;
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/service/test-connection").asString();
+            return response.getBody().equals("Ready");
+
+        } catch (UnirestException e) {
+            return false;
+        }
+
     }
 
     /**
