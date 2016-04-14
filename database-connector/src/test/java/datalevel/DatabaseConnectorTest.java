@@ -9,6 +9,9 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void checkPin() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        assertTrue(connector.checkPin("0000111122223333", "0000"));
+        assertTrue(connector.checkPin("1111222233334444", "0000"));
     }
 
     @org.junit.Test
@@ -43,7 +46,7 @@ public class DatabaseConnectorTest {
 
             System.out.print("Send request to " + connector.getDatabaseLocation());
             assertTrue(connector.testConnection());
-            System.out.println("connection OK");
+            System.out.println(" - connection OK");
         }
 
         System.out.println("\nTest with wrong server location: (Must returns " +
@@ -54,7 +57,7 @@ public class DatabaseConnectorTest {
 
             System.out.print("Send request to " + connector.getDatabaseLocation());
             assertFalse(connector.testConnection());
-            System.out.println(" no connection");
+            System.out.println(" - no connection");
         }
 
     }

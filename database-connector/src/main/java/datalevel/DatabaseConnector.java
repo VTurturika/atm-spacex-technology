@@ -1,6 +1,7 @@
 package datalevel;
 
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -10,7 +11,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 public class DatabaseConnector {
 
-    String databaseLocation = "https://spacex-technology.herokuapp.com/";//"http://localhost";
+    String databaseLocation = "https://spacex-technology.herokuapp.com/";
+                               //"http://localhost";
 
     /**
      * Checks PIN code of credit card
@@ -22,7 +24,28 @@ public class DatabaseConnector {
      */
     public boolean checkPin(String cardID, String pin) throws RequestException {
 
-        return false;
+        try {
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/check-pin")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID",cardID)
+                    .queryString("pinCode", pin)
+                    .asJson();
+
+            switch ((String)response.getBody().getObject().get("Result")) {
+                case "OK":
+                    return true;
+                case "WRONG_CARD_ID":
+                    throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+                case "WRONG_PIN":
+                    throw new RequestException(RequestErrorCode.WRONG_PIN);
+                default:
+                    throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
+            }
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
+        }
     }
 
     /**
