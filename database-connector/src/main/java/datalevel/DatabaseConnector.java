@@ -10,7 +10,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 public class DatabaseConnector {
 
-    String databaseLocation = "http://localhost";
+    String databaseLocation = "https://spacex-technology.herokuapp.com/";//"http://localhost";
 
     /**
      * Checks PIN code of credit card
@@ -163,5 +163,23 @@ public class DatabaseConnector {
      */
     public void unblockCard(String serviceKey, String cardID) throws RequestException {
 
+    }
+
+    /**
+     * Returns bank server URL
+     *
+     * @return  bank server URL
+     */
+    public String getDatabaseLocation() {
+        return databaseLocation;
+    }
+
+    /**
+     * Sets bank server URL
+     *
+     * @param databaseLocation URL of server
+     */
+    public void setDatabaseLocation(String databaseLocation) {
+        this.databaseLocation = databaseLocation;
     }
 }
