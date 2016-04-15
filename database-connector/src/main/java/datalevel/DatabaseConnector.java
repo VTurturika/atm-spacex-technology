@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,7 +79,21 @@ public class DatabaseConnector {
         if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
         if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
 
-        return 0;
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/add-cash")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID", cardID)
+                    .queryString("pinCode", pin)
+                    .queryString("cashSize", cashSize)
+                    .asJson();
+
+            return parseBalanceResponse(response.getBody().getObject());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -103,15 +118,7 @@ public class DatabaseConnector {
                     .queryString("pinCode", pin)
                     .asJson();
 
-            switch ((String) response.getBody().getObject().get("Result")) {
-                case "OK":
-                    String balanceString = (String)response.getBody().getObject().get("Balance");
-                    return Double.parseDouble(balanceString.substring(1));
-                case "LOGIN_ERROR":
-                    throw new RequestException(RequestErrorCode.LOGIN_ERROR);
-                default:
-                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
-            }
+            return parseBalanceResponse(response.getBody().getObject());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -256,5 +263,35 @@ public class DatabaseConnector {
      */
     private boolean isValidCardId(String cardId) {
         return  validCardId.matcher(cardId).matches();
+    }
+
+    /**
+     * Converts string of monetary type to double type
+     *
+     * @param money string of monetary type
+     * @return converted double value
+     */
+    private double convertMoneyToDouble(String money) {
+        return Double.parseDouble(money.substring(1).replaceAll(",", ""));
+    }
+
+    /**
+     * Receives response from server as JSON object and chooses correct action for received balance
+     *
+     * @param response contain information about received balance
+     * @return balance of card as double
+     * @throws RequestException if received unsuccessfull response from server
+     */
+    private double parseBalanceResponse(JSONObject response) throws RequestException {
+
+        switch ((String) response.get("Result")) {
+            case "OK":
+                String balanceString = (String) response.get("Balance");
+                return convertMoneyToDouble(balanceString);
+            case "LOGIN_ERROR":
+                throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+            default:
+                throw new RequestException(RequestErrorCode.FATAL_ERROR);
+        }
     }
 }

@@ -29,13 +29,15 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void addCash() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.addCash("1111222233334444", "0000", 100);
     }
 
     @org.junit.Test
     public void getBalance() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        assertEquals(connector.getBalance("0000111122223333", "0000"), 0.0, 0.01);
+        System.out.println(connector.getBalance("0000111122223333", "0000"));
         try {connector.getBalance("0000111122223333", "0001");} catch (RequestException e) {System.out.println(e);}
         try {connector.getBalance("1000111122223333", "0000");} catch (RequestException e) {System.out.println(e);}
     }
