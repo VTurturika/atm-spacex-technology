@@ -8,6 +8,8 @@ package apilevel;
  */
 
 import datalevel.DatabaseConnector;
+import datalevel.RequestException;
+
 
 /**
  * API for usual customers of ATM
@@ -19,20 +21,65 @@ public class AtmClient {
     CreditCard currentCard;
     DatabaseConnector connector;
 
+    public AtmClient(CreditCard currentCard, DatabaseConnector connector) throws Exception {
+        this.currentCard = currentCard;
+        this.connector = connector;
+        if(!connector.testConnection()) throw new Exception("Connection to DatabaseConnector failed");
+    }
+
+    public CreditCard getCurrentCard() {
+        return currentCard;
+    }
+
+    public void setCurrentCard(CreditCard currentCard) {
+        this.currentCard = currentCard;
+    }
+
+    /**
+     * Synchronizes balance of the {@code currentCard} with server
+     *
+     * @return balance of {@code currentCard}
+     */
     Double showBalance() {
-        // TODO: DatabaseConnector actions!!!
+        try {
+            currentCard.setBalance(connector.getBalance(currentCard.getCardId(), currentCard.getPinCode()));
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
         return currentCard.getBalance();
     }
 
+    /**
+     * Withdraws {@code Double} amount to {@code CreditCard} balance
+     *
+     * @param money
+     *
+     * @return {@code CreditCard.getBalance()}
+     * @see CreditCard
+     */
     Double withdrawCash(Double money) {
-        // TODO: DatabaseConnector actions!!!
-        currentCard.withdrawMoney(money);
+        try {
+            currentCard.setBalance(connector.receiveCash(currentCard.getCardId(), currentCard.getPinCode(), money));
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
         return currentCard.getBalance();
     }
 
+    /**
+     * Adds {@code Double} amount to {@code CreditCard} balance
+     *
+     * @param money
+     *
+     * @return {@code CreditCard.getBalance()}
+     * @see CreditCard
+     */
     Double addCash(Double money) {
-        // TODO: DatabaseConnector actions!!!
-        currentCard.addMoney(money);
+        try {
+            currentCard.setBalance(connector.addCash(currentCard.getCardId(), currentCard.getPinCode(), money));
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
         return currentCard.getBalance();
     }
 

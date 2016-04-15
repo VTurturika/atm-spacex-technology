@@ -7,6 +7,9 @@ package apilevel;
  *
  */
 
+import datalevel.DatabaseConnector;
+import datalevel.RequestException;
+
 /**
  * Storage and API for customers Credit Cards in ATM
  *
@@ -18,6 +21,22 @@ public class CreditCard {
     Double balance;
     Boolean isLocked;
     String pinCode;
+    DatabaseConnector connector = new DatabaseConnector();
+
+    public CreditCard() {
+        this("0000000000000000", 0.00, false, "0000");
+    }
+
+    public CreditCard(String cardId, Double balance) {
+        this(cardId, balance, false, "0000");
+    }
+
+    public CreditCard(String cardId, Double balance, Boolean isLocked, String pinCode) {
+        this.cardId = cardId;
+        this.balance = balance;
+        this.isLocked = isLocked;
+        this.pinCode = pinCode;
+    }
 
     public String getCardId() {
         return cardId;
@@ -31,32 +50,31 @@ public class CreditCard {
         return balance;
     }
 
-    private void setBalance(Double balance) {
+    void setBalance(Double balance) {
         this.balance = balance;
-    }
-
-    public void addMoney(Double money) {
-        setBalance(getBalance() + money);
-    }
-
-    public void withdrawMoney(Double money) {
-        setBalance(getBalance() - money);
     }
 
     public Boolean isLocked() {
         return isLocked;
     }
 
-    private void setLocked(Boolean locked) {
+    private void setLocked(ServiceWorker sw, Boolean locked) {
+        try {
+            if(locked) connector.blockCard(sw.getServiceKey(), cardId);
+            else connector.unblockCard(sw.getServiceKey(), cardId);
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
         isLocked = locked;
     }
 
-    public void lockCard() {
-        setLocked(true);
-    }
+//    TODO: NEEDS SEPARATE METHOD ON LOWER LEVEL
+//    public void lockCard() {
+//        setLocked(true);
+//    }
 
-    public void unlockCard() {
-        setLocked(false);
+    public void unlockCard(ServiceWorker sw) {
+        setLocked(sw, false);
     }
 
     public String getPinCode() {
@@ -64,8 +82,11 @@ public class CreditCard {
     }
 
     public void setPinCode(String pinCode) {
+        try {
+            connector.changePin(cardId, this.pinCode, pinCode);
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
         this.pinCode = pinCode;
     }
-
-    // TODO: Constructor and DatabaseConnectr actions!!!
 }

@@ -7,6 +7,7 @@ package apilevel;
  *
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,17 @@ public class BankAccount {
     List<CreditCard> creditCards;
     Person person;
 
+    public BankAccount(ServiceWorker sw, Integer accountId, List<CreditCard> creditCards, Person person) {
+        BankAccount b = sw.createNewAccount(person);
+        this.accountId = b.getAccountId();
+        this.creditCards = b.getCreditCards();
+        this.person = person;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
     public Person getPerson() {
         return person;
     }
@@ -28,15 +40,16 @@ public class BankAccount {
         for(CreditCard c : creditCards) {
             if(c.getCardId().equals(cardId)) return c;
         }
-        return new CreditCard();
+        return null;
     }
 
-    public void addCard(CreditCard card) {
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void addCard(ServiceWorker sw, CreditCard card) {
+        sw.addCreditCard(this, card);
         creditCards.add(card);
-    }
-
-    public void removeCard(CreditCard card) {
-        creditCards.remove(card);
     }
 
     public Boolean hasCard(CreditCard card) {

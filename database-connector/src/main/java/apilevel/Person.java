@@ -7,6 +7,8 @@ package apilevel;
  *
  */
 
+import java.util.Objects;
+
 /**
  * Storage for data about customer
  *
@@ -60,5 +62,21 @@ public class Person {
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(getLastName(), person.getLastName()) &&
+                Objects.equals(getFirstName(), person.getFirstName()) &&
+                Objects.equals(getMiddleName(), person.getMiddleName()) &&
+                Objects.equals(getAdress(), person.getAdress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLastName(), getFirstName(), getMiddleName(), getAdress());
     }
 }

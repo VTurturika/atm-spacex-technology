@@ -7,6 +7,8 @@ package apilevel;
  *
  */
 
+import datalevel.DatabaseConnector;
+
 /**
  * API for ServiceWorkers in ATM
  *
@@ -15,9 +17,10 @@ package apilevel;
  */
 public class ServiceWorker {
     String serviceKey;
+    static DatabaseConnector connector = new DatabaseConnector();
 
     public BankAccount createNewAccount(Person p) {
-        // TODO: NULL
+
         return null;
     }
 
@@ -25,8 +28,12 @@ public class ServiceWorker {
         //TODO: NULL
     }
 
+    public void addCreditCard(BankAccount b, CreditCard c) {
+        //TODO: NULL
+    }
+
     public void unlockCard(CreditCard c) {
-        c.unlockCard();
+        c.unlockCard(this);
     }
 
     public void addCash(Double cash) {
