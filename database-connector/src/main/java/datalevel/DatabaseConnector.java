@@ -199,13 +199,14 @@ public class DatabaseConnector {
     }
 
     /**
-     * Checks security service key and blocks specified credit card
+     * Blocks specified credit card
      *
      * @param cardID number of credit card
+     * @return {@code true} if card successfully blocked, else returns {@code false}
      * @throws RequestException if received incorrect parameters
      */
-    public void blockCard(String cardID) throws RequestException {
-
+    public boolean blockCard(String cardID) throws RequestException {
+        return false;
     }
 
     /**
