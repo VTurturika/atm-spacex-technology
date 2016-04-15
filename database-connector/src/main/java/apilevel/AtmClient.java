@@ -21,16 +21,30 @@ public class AtmClient {
     CreditCard currentCard;
     DatabaseConnector connector;
 
+    /**
+     * Constructor + checks if connection is reached.
+     * @param currentCard
+     * @param connector
+     * @throws Exception
+     */
     public AtmClient(CreditCard currentCard, DatabaseConnector connector) throws Exception {
         this.currentCard = currentCard;
         this.connector = connector;
         if(!connector.testConnection()) throw new Exception("Connection to DatabaseConnector failed");
     }
 
+    /**
+     * Getter
+     * @return current {@code CreditCard} in instance
+     */
     public CreditCard getCurrentCard() {
         return currentCard;
     }
 
+    /**
+     * Setter
+     * @param currentCard new current {@code CreditCard} for instance to work with
+     */
     public void setCurrentCard(CreditCard currentCard) {
         this.currentCard = currentCard;
     }
@@ -83,10 +97,18 @@ public class AtmClient {
         return currentCard.getBalance();
     }
 
+    /**
+     * Getter
+     * @return {@code DatabaseConnector} instance
+     */
     DatabaseConnector getConnector() {
         return connector;
     }
 
+    /**
+     * Setter
+     * @param connector {@code DatabaseConnector} instance
+     */
     public void setConnector(DatabaseConnector connector) {
         this.connector = connector;
     }

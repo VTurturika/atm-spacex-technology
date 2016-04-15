@@ -21,11 +21,16 @@ public class BankAccount {
     List<CreditCard> creditCards;
     Person person;
 
-    public BankAccount(ServiceWorker sw, Integer accountId, List<CreditCard> creditCards, Person person) {
+    public BankAccount(ServiceWorker sw, Person person) {
         BankAccount b = sw.createNewAccount(person);
         this.accountId = b.getAccountId();
         this.creditCards = b.getCreditCards();
         this.person = person;
+    }
+
+    public BankAccount(Integer accountId, Person p) {
+        this.accountId = accountId;
+        this.person = p;
     }
 
     public Integer getAccountId() {

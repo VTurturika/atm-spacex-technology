@@ -26,7 +26,7 @@ public class PersonTest {
     public void initTestPerson() {
         log.log(Level.INFO, "Should be Person with 4 String fields of text");
         Person expected = new Person();
-        Person actual = new Person("Тестовый", "Пользователь", "Петрович", "Киевская, 7");
+        Person actual = new Person("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
         Assert.assertEquals(expected, actual);
     }
 }

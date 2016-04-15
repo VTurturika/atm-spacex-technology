@@ -7,6 +7,8 @@ package apilevel;
  *
  */
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.Objects;
 
 /**
@@ -20,16 +22,27 @@ public class Person {
     String firstName;
     String middleName;
     String adress;
+    Integer age;
 
     Person() {
-        this("Тестовый", "Пользователь", "Петрович", "Киевская, 7");
+        this("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
     }
 
-    public Person(String lastName, String firstName, String middleName, String adress) {
+    public Person(String lastName, String firstName, String middleName, String adress, Integer age) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
         this.adress = adress;
+        if(age < 18) throw new IllegalArgumentException(age + " should be at least 18, you pedophile!");
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public String getLastName() {
