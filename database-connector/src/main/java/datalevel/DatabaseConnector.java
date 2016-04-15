@@ -221,10 +221,11 @@ public class DatabaseConnector {
      *
      * @param serviceKey service key of ATM
      * @param cardID number of credit card
+     * @return {@code true} if specified card successfully is unblocked, else returns {@code false}
      * @throws RequestException if received incorrect parameters
      */
-    public void unblockCard(String serviceKey, String cardID) throws RequestException {
-
+    public boolean unblockCard(String serviceKey, String cardID) throws RequestException {
+        return false;
     }
 
     /**
