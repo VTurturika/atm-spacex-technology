@@ -5,14 +5,18 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Implements connection with Bank.
  * Sends specified requests to server and returns data to model
  */
 public class DatabaseConnector {
 
-    String databaseLocation = "https://spacex-technology.herokuapp.com/";
-                               //"http://localhost";
+    private String databaseLocation = "https://spacex-technology.herokuapp.com/";
+    private static Pattern validPin = Pattern.compile("^\\d{4}$");
+    private static Pattern validCardId = Pattern.compile("^\\d{16}$");
 
     /**
      * Checks PIN code of credit card
@@ -24,6 +28,9 @@ public class DatabaseConnector {
      */
     public boolean checkPin(String cardID, String pin) throws RequestException {
 
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+
         try {
             HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/check-pin")
                     .queryString("cardID",cardID)
@@ -33,16 +40,14 @@ public class DatabaseConnector {
             switch (response.getBody()) {
                 case "OK":
                     return true;
-                case "WRONG_CARD_ID":
-                    throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
-                case "WRONG_PIN":
-                    throw new RequestException(RequestErrorCode.WRONG_PIN);
+                case "LOGIN_ERROR":
+                    return false;
                 default:
-                    throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
+                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
             }
 
         }catch (UnirestException e) {
-            throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
         }
     }
 
@@ -202,5 +207,25 @@ public class DatabaseConnector {
      */
     public void setDatabaseLocation(String databaseLocation) {
         this.databaseLocation = databaseLocation;
+    }
+
+    /**
+     * Verifies PIN code
+     *
+     * @param pin PIN code for verifying
+     * @return {@code true} if specified PIN is correct, else returns {@code false}
+     */
+    private boolean isValidPin(String pin) {
+        return validPin.matcher(pin).matches();
+    }
+
+    /**
+     * Verifies number of credit card
+     *
+     * @param cardId number for verifying
+     * @return {@code true} if specified number of card is correct, else returns {@code false}
+     */
+    private boolean isValidCardId(String cardId) {
+        return  validCardId.matcher(cardId).matches();
     }
 }

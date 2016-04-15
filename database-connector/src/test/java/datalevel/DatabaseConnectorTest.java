@@ -12,6 +12,13 @@ public class DatabaseConnectorTest {
         DatabaseConnector connector = new DatabaseConnector();
         assertTrue(connector.checkPin("0000111122223333", "0000"));
         assertTrue(connector.checkPin("1111222233334444", "0000"));
+        assertFalse(connector.checkPin("0000111122223333", "0001"));
+        assertFalse(connector.checkPin("0111222233334444", "0000"));
+
+        try {connector.checkPin("qwerty", "0000");}catch (RequestException r) {System.out.println(r.getErrorCode());}
+        try {connector.checkPin("0000111122223333", "qwerty");}catch (RequestException r) {
+            System.out.println(r.getErrorCode());
+        }
     }
 
     @org.junit.Test
