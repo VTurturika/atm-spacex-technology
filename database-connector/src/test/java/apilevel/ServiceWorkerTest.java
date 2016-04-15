@@ -7,6 +7,8 @@ package apilevel;
  *
  */
 
+import org.junit.Test;
+
 /**
  * Tests class {@code ServiceWorker}
  *
@@ -14,4 +16,5 @@ package apilevel;
  * @see ServiceWorker
  */
 public class ServiceWorkerTest {
+
 }

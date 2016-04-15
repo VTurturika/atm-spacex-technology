@@ -24,6 +24,11 @@ public class ServiceWorker {
     String serviceKey;
     DatabaseConnector connector = new DatabaseConnector();
 
+    public ServiceWorker(String serviceKey, DatabaseConnector connector) {
+        this.serviceKey = serviceKey;
+        this.connector = connector;
+    }
+
     /**
      * Creates new {@code BankAccount} on server and here
      * @param p data about customer
