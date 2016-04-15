@@ -7,6 +7,10 @@ package apilevel;
  *
  */
 
+import org.junit.Test;
+
+import java.util.logging.Logger;
+
 /**
  * Tests class {@code BankAccount}
  *
@@ -14,4 +18,7 @@ package apilevel;
  * @see BankAccount
  */
 public class BankAccountTest {
+    public static final Logger log = Logger.getLogger(BankAccountTest.class.getName());
+
+    // TODO: needed api to communicate with DatabaseConnector about Persons
 }
