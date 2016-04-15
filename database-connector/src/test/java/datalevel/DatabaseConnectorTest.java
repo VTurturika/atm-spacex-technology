@@ -1,5 +1,7 @@
 package datalevel;
 
+import org.json.JSONObject;
+
 import static org.junit.Assert.*;
 
 /**
@@ -34,6 +36,12 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void getBalance() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        try {
+            System.out.println(connector.getBalance("0000111122223333", "0000"));
+        }catch (RequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @org.junit.Test

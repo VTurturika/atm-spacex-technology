@@ -86,7 +86,32 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters
      */
     public double getBalance(String cardID, String pin) throws RequestException {
-        return 0;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/get-balance")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID",cardID)
+                    .queryString("pinCode", pin)
+                    .asJson();
+
+            switch ((String) response.getBody().getObject().get("Result")) {
+                case "OK":
+                    String balanceString = (String)response.getBody().getObject().get("Balance");
+                    return Double.parseDouble(balanceString.substring(1));
+                case "LOGIN_ERROR":
+                    throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+                default:
+                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
+            }
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
