@@ -1,7 +1,5 @@
 package datalevel;
 
-import org.json.JSONObject;
-
 import static org.junit.Assert.*;
 
 /**
@@ -37,11 +35,9 @@ public class DatabaseConnectorTest {
     public void getBalance() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        try {
-            System.out.println(connector.getBalance("0000111122223333", "0000"));
-        }catch (RequestException e) {
-            e.printStackTrace();
-        }
+        assertEquals(connector.getBalance("0000111122223333", "0000"), 0.0, 0.01);
+        try {connector.getBalance("0000111122223333", "0001");} catch (RequestException e) {System.out.println(e);}
+        try {connector.getBalance("1000111122223333", "0000");} catch (RequestException e) {System.out.println(e);}
     }
 
     @org.junit.Test

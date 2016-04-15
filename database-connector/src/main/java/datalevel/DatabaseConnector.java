@@ -74,6 +74,10 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters
      */
     public double addCash(String cardID, String pin, double cashSize) throws RequestException {
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+
         return 0;
     }
 
@@ -197,11 +201,10 @@ public class DatabaseConnector {
     /**
      * Checks security service key and blocks specified credit card
      *
-     * @param serviceKey service key of ATM
      * @param cardID number of credit card
      * @throws RequestException if received incorrect parameters
      */
-    public void blockCard(String serviceKey, String cardID) throws RequestException {
+    public void blockCard(String cardID) throws RequestException {
 
     }
 
