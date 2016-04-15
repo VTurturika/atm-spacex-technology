@@ -25,14 +25,12 @@ public class DatabaseConnector {
     public boolean checkPin(String cardID, String pin) throws RequestException {
 
         try {
-            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/check-pin")
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/check-pin")
                     .queryString("cardID",cardID)
                     .queryString("pinCode", pin)
-                    .asJson();
+                    .asString();
 
-            switch ((String)response.getBody().getObject().get("Result")) {
+            switch (response.getBody()) {
                 case "OK":
                     return true;
                 case "WRONG_CARD_ID":
