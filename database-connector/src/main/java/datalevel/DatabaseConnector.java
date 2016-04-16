@@ -62,7 +62,27 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or not enough money
      */
     public double receiveCash(String cardID, String pin, double cashSize) throws RequestException {
-        return 0;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidCashSize(cashSize)) throw new RequestException(RequestErrorCode.WRONG_CASHSIZE);
+
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/receive-cash")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID", cardID)
+                    .queryString("pinCode", pin)
+                    .queryString("cashSize", cashSize)
+                    .asJson();
+
+            return parseBalanceResponse(response.getBody().getObject());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
+
     }
 
     /**
@@ -302,6 +322,8 @@ public class DatabaseConnector {
                 return convertMoneyToDouble(balanceString);
             case "LOGIN_ERROR":
                 throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+            case "INSUFFICIENT_FUNDS":
+                throw new RequestException(RequestErrorCode.INSUFFICIENT_FUNDS);
             default:
                 throw new RequestException(RequestErrorCode.FATAL_ERROR);
         }

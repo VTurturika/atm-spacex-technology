@@ -23,7 +23,18 @@ public class DatabaseConnectorTest {
 
     @org.junit.Test
     public void receiveCash() throws Exception {
+        DatabaseConnector connector = new DatabaseConnector();
+        double currentBalance = connector.receiveCash("1111222233334444", "0000", 50);
+        System.out.println(currentBalance);
 
+        try{
+            connector.receiveCash("1111222233334444", "0000", 500);
+        }
+        catch (RequestException e) {
+            if(e.getErrorCode() == RequestErrorCode.INSUFFICIENT_FUNDS) {
+                System.out.println("insufficient funds");
+            }
+        }
     }
 
     @org.junit.Test
