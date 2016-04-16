@@ -56,6 +56,8 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void changePin() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "1111", "0000"));
     }
 
     @org.junit.Test

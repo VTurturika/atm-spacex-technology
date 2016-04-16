@@ -6,7 +6,6 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -38,14 +37,7 @@ public class DatabaseConnector {
                     .queryString("pinCode", pin)
                     .asString();
 
-            switch (response.getBody()) {
-                case "OK":
-                    return true;
-                case "LOGIN_ERROR":
-                    return false;
-                default:
-                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
-            }
+            return parsePinResponse(response.getBody());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -154,8 +146,24 @@ public class DatabaseConnector {
      * @param newPin new PIN code of credit card
      * @throws RequestException if received incorrect parameters
      */
-    public void changePin(String cardID, String oldPin, String newPin) throws RequestException {
+    public boolean changePin(String cardID, String oldPin, String newPin) throws RequestException {
 
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(oldPin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidPin(newPin)) throw new RequestException(RequestErrorCode.WRONG_NEW_PIN);
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/change-pin")
+                    .queryString("cardID", cardID)
+                    .queryString("oldPin", oldPin)
+                    .queryString("newPin", newPin)
+                    .asString();
+
+            return parsePinResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -324,6 +332,18 @@ public class DatabaseConnector {
                 throw new RequestException(RequestErrorCode.LOGIN_ERROR);
             case "INSUFFICIENT_FUNDS":
                 throw new RequestException(RequestErrorCode.INSUFFICIENT_FUNDS);
+            default:
+                throw new RequestException(RequestErrorCode.FATAL_ERROR);
+        }
+    }
+
+    private boolean parsePinResponse(String response) throws RequestException {
+
+        switch (response) {
+            case "OK":
+                return true;
+            case "LOGIN_ERROR":
+                return false;
             default:
                 throw new RequestException(RequestErrorCode.FATAL_ERROR);
         }
