@@ -20,15 +20,17 @@ import org.junit.Test;
 public class AtmClientTest {
     private static final double DELTA = 1e-15;
 
-    //TODO: constructor (but check if it should be Singletone or no)
-
     @Test
     public void showBalance() {
 
         try {
-            AtmClient atmClient = new AtmClient(new CreditCard("0000111122223333"), new DatabaseConnector());
+            AtmClient atmClient = AtmClient.getInstance();
+            atmClient.setCurrentCard(new CreditCard("0000111122223333"));
+            atmClient.setConnector(new DatabaseConnector());
+
             double actualBalance = atmClient.showBalance();
             double balance = new DatabaseConnector().getBalance("0000111122223333", "0000");
+
             Assert.assertEquals(balance, actualBalance, DELTA);
         } catch(Exception e) {
             e.printStackTrace();
@@ -38,7 +40,10 @@ public class AtmClientTest {
     @Test
     public void withdrawCash() {
         try {
-            AtmClient atmClient = new AtmClient(new CreditCard("0000111122223333"), new DatabaseConnector());
+            AtmClient atmClient = AtmClient.getInstance();
+            atmClient.setCurrentCard(new CreditCard("0000111122223333"));
+            atmClient.setConnector(new DatabaseConnector());
+
             double balance = atmClient.showBalance();
             atmClient.withdrawCash(10.0);
             if(balance != 0) {
@@ -54,7 +59,10 @@ public class AtmClientTest {
     @Test
     public void addCash() {
         try {
-            AtmClient atmClient = new AtmClient(new CreditCard("0000111122223333"), new DatabaseConnector());
+            AtmClient atmClient = AtmClient.getInstance();
+            atmClient.setCurrentCard(new CreditCard("0000111122223333"));
+            atmClient.setConnector(new DatabaseConnector());
+
             double balance = atmClient.showBalance();
             atmClient.addCash(10.0);
             Assert.assertEquals(balance + 10.0, balance, DELTA);

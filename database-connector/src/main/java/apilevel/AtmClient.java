@@ -20,17 +20,17 @@ import datalevel.RequestException;
 public class AtmClient {
     CreditCard currentCard;
     DatabaseConnector connector;
+    //TODO: implement methods according to connect with connector
+
+    private static final AtmClient instance = new AtmClient();
+    private AtmClient() { }
 
     /**
-     * Constructor + checks if connection is reached.
-     * @param currentCard
-     * @param connector
-     * @throws Exception
+     * Singleton
+     * @return {@code AtmClient} instance
      */
-    public AtmClient(CreditCard currentCard, DatabaseConnector connector) throws Exception {
-        this.currentCard = currentCard;
-        this.connector = connector;
-        if(!connector.testConnection()) throw new Exception("Connection to DatabaseConnector failed");
+    public  static AtmClient getInstance() {
+        return instance;
     }
 
     /**

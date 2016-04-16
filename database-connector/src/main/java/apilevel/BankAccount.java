@@ -21,16 +21,14 @@ public class BankAccount {
     List<CreditCard> creditCards;
     Person person;
 
-    public BankAccount(ServiceWorker sw, Person person) {
-        BankAccount b = sw.createNewAccount(person);
-        this.accountId = b.getAccountId();
-        this.creditCards = b.getCreditCards();
-        this.person = person;
-    }
-
+    /**
+     * @param accountId
+     * @param p
+     */
     public BankAccount(Integer accountId, Person p) {
         this.accountId = accountId;
         this.person = p;
+        creditCards = new ArrayList<>();
     }
 
     public Integer getAccountId() {
@@ -52,8 +50,7 @@ public class BankAccount {
         return creditCards;
     }
 
-    public void addCard(ServiceWorker sw, CreditCard card) {
-        sw.addCreditCard(this, card);
+    public void addCard(CreditCard card) {
         creditCards.add(card);
     }
 
