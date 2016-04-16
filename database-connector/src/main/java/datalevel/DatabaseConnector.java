@@ -78,6 +78,7 @@ public class DatabaseConnector {
 
         if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
         if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidCashSize(cashSize)) throw new RequestException(RequestErrorCode.WRONG_CASHSIZE);
 
         try {
 
@@ -277,6 +278,16 @@ public class DatabaseConnector {
     }
 
     /**
+     * Verifies cash size
+     *
+     * @param cashSize value for verifying
+     * @return {@code true} if {@code cashSize} is correct, else returns {@code false}
+     */
+    private boolean isValidCashSize(double cashSize) {
+        return cashSize > 0;
+    }
+
+    /**
      * Receives response from server as JSON object and chooses correct action for received balance
      *
      * @param response contain information about received balance
@@ -295,4 +306,5 @@ public class DatabaseConnector {
                 throw new RequestException(RequestErrorCode.FATAL_ERROR);
         }
     }
+
 }
