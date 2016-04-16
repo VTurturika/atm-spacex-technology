@@ -24,7 +24,7 @@ public class DatabaseConnector {
      * @param cardID number of credit card
      * @param pin PIN code, that will be checked
      * @return {@code true} if specified PIN code is correct, else returns {@code false}
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean checkPin(String cardID, String pin) throws RequestException {
 
@@ -51,7 +51,7 @@ public class DatabaseConnector {
      * @param pin PIN code of credit card
      * @param cashSize sum that will be received
      * @return balance of credit card after transaction
-     * @throws RequestException if received incorrect parameters or not enough money
+     * @throws RequestException if received incorrect parameters, not enough money or server is disconnected
      */
     public double receiveCash(String cardID, String pin, double cashSize) throws RequestException {
 
@@ -84,7 +84,7 @@ public class DatabaseConnector {
      * @param pin PIN code of credit card
      * @param cashSize sum that will be added
      * @return balance of credit card after transaction
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public double addCash(String cardID, String pin, double cashSize) throws RequestException {
 
@@ -115,7 +115,7 @@ public class DatabaseConnector {
      * @param cardID number of credit card
      * @param pin PIN code of credit card
      * @return balance of credit card
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public double getBalance(String cardID, String pin) throws RequestException {
 
@@ -144,7 +144,8 @@ public class DatabaseConnector {
      * @param cardID number of credit card
      * @param oldPin PIN code of credit card
      * @param newPin new PIN code of credit card
-     * @throws RequestException if received incorrect parameters
+     * @return {@code true} if PIN code successfully changed, else returns {@code false}
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean changePin(String cardID, String oldPin, String newPin) throws RequestException {
 
@@ -188,8 +189,9 @@ public class DatabaseConnector {
      *
      * @param serviceKey service key of ATM
      * @return {@code true} if service key is correct, else returns {@code false}
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
-    public boolean checkServiceKey(String serviceKey) {
+    public boolean checkServiceKey(String serviceKey) throws RequestException {
         return false;
     }
 
@@ -203,7 +205,7 @@ public class DatabaseConnector {
      * @param customerAge age of customer
      * @param customerAddress address of customer
      * @return bank account ID
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public int createAccount(String serviceKey, String customerFirstName,
                              String customerMiddleName, String customerLastName,
@@ -217,7 +219,7 @@ public class DatabaseConnector {
      * @param serviceKey service key of ATM
      * @param accountID bank account ID
      * @return number of new credit card
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public String addCard(String serviceKey, int accountID) throws RequestException {
         return "";
@@ -228,7 +230,7 @@ public class DatabaseConnector {
      *
      * @param serviceKey service key of ATM
      * @return array of numbers of blocked credit cards
-     * @throws RequestException if received incorrect serviceKey
+     * @throws RequestException if received incorrect serviceKey or server is disconnected
      */
     public String[] getBlockedCards(String serviceKey) throws RequestException {
         return null;
@@ -239,7 +241,7 @@ public class DatabaseConnector {
      *
      * @param cardID number of credit card
      * @return {@code true} if card successfully blocked, else returns {@code false}
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean blockCard(String cardID) throws RequestException {
         return false;
@@ -251,7 +253,7 @@ public class DatabaseConnector {
      * @param serviceKey service key of ATM
      * @param cardID number of credit card
      * @return {@code true} if specified card successfully is unblocked, else returns {@code false}
-     * @throws RequestException if received incorrect parameters
+     * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean unblockCard(String serviceKey, String cardID) throws RequestException {
         return false;
@@ -316,9 +318,9 @@ public class DatabaseConnector {
     }
 
     /**
-     * Receives response from server as JSON object and chooses correct action for received balance
+     * Receives response as JSON object and chooses correct action for received balance
      *
-     * @param response contain information about received balance
+     * @param response contains information about received balance
      * @return balance of card as double
      * @throws RequestException if received unsuccessfull response from server
      */
@@ -337,6 +339,13 @@ public class DatabaseConnector {
         }
     }
 
+    /**
+     * Receives response as String and chooses correct action for received PIN code
+     *
+     * @param response contains information about received PIN code
+     * @return {@code true} if received success response, else returns {@code true}
+     * @throws RequestException if received incorrect response
+     */
     private boolean parsePinResponse(String response) throws RequestException {
 
         switch (response) {
