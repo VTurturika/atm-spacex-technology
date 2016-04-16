@@ -5,8 +5,9 @@ package datalevel;
  */
 public enum RequestErrorCode {
 
-    WRONG_CARD_ID, WRONG_PIN, INSUFFICIENT_FUNDS, WRONG_CASHSIZE, WRONG_NEW_PIN, WRONG_SERVICE_KEY,
-    WRONG_ACCOUNT, TO_LONG_FIRST_NAME, TO_LONG_MIDDLE_NAME, TO_LONG_LAST_NAME, SOMETHING_WRONG;
+    WRONG_CARD_ID, WRONG_PIN, INSUFFICIENT_FUNDS, WRONG_CASHSIZE,
+    WRONG_NEW_PIN, WRONG_SERVICE_KEY, WRONG_ACCOUNT, TO_LONG_FIRST_NAME,
+    TO_LONG_MIDDLE_NAME, TO_LONG_LAST_NAME, LOGIN_ERROR, CONNECTION_ERROR, FATAL_ERROR;
 
     @Override
     public String toString() {
@@ -32,8 +33,12 @@ public enum RequestErrorCode {
                 return "TO_LONG_MIDDLE_NAME";
             case 9:
                 return "TO_LONG_LAST_NAME";
+            case 10:
+                return "LOGIN_ERROR";
+            case 11:
+                return "CONNECTION_ERROR";
             default:
-                return "SOMETHING_WRONG";
+                return "FATAL_ERROR";
         }
     }
 }

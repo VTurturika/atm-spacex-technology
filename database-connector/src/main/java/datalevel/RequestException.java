@@ -22,6 +22,11 @@ public class RequestException extends Exception {
 
     @Override
     public String getMessage() {
-        return super.getMessage() + " " + this.errorCode;
+        return  "Catch: " + this.errorCode;
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
     }
 }

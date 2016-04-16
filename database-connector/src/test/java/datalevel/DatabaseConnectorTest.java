@@ -12,26 +12,52 @@ public class DatabaseConnectorTest {
         DatabaseConnector connector = new DatabaseConnector();
         assertTrue(connector.checkPin("0000111122223333", "0000"));
         assertTrue(connector.checkPin("1111222233334444", "0000"));
+        assertFalse(connector.checkPin("0000111122223333", "0001"));
+        assertFalse(connector.checkPin("0111222233334444", "0000"));
+
+        try {connector.checkPin("qwerty", "0000");}catch (RequestException r) {System.out.println(r.getErrorCode());}
+        try {connector.checkPin("0000111122223333", "qwerty");}catch (RequestException r) {
+            System.out.println(r.getErrorCode());
+        }
     }
 
     @org.junit.Test
     public void receiveCash() throws Exception {
+        DatabaseConnector connector = new DatabaseConnector();
+        double currentBalance = connector.receiveCash("1111222233334444", "0000", 50);
+        System.out.println(currentBalance);
 
+        try{
+            connector.receiveCash("1111222233334444", "0000", 500);
+        }
+        catch (RequestException e) {
+            if(e.getErrorCode() == RequestErrorCode.INSUFFICIENT_FUNDS) {
+                System.out.println("insufficient funds");
+            }
+        }
     }
 
     @org.junit.Test
     public void addCash() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        connector.addCash("1111222233334444", "0000", 100);
     }
 
     @org.junit.Test
     public void getBalance() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println(connector.getBalance("0000111122223333", "0000"));
+        try {connector.getBalance("0000111122223333", "0001");} catch (RequestException e) {System.out.println(e);}
+        try {connector.getBalance("1000111122223333", "0000");} catch (RequestException e) {System.out.println(e);}
     }
 
     @org.junit.Test
     public void changePin() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "1111", "0000"));
     }
 
     @org.junit.Test

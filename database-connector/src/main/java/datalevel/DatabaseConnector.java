@@ -4,6 +4,9 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 /**
  * Implements connection with Bank.
@@ -11,8 +14,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 public class DatabaseConnector {
 
-    String databaseLocation = "https://spacex-technology.herokuapp.com/";
-                               //"http://localhost";
+    private String databaseLocation = "https://spacex-technology.herokuapp.com/";
+    private static Pattern validPin = Pattern.compile("^\\d{4}$");
+    private static Pattern validCardId = Pattern.compile("^\\d{16}$");
 
     /**
      * Checks PIN code of credit card
@@ -24,25 +28,19 @@ public class DatabaseConnector {
      */
     public boolean checkPin(String cardID, String pin) throws RequestException {
 
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+
         try {
             HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/check-pin")
                     .queryString("cardID",cardID)
                     .queryString("pinCode", pin)
                     .asString();
 
-            switch (response.getBody()) {
-                case "OK":
-                    return true;
-                case "WRONG_CARD_ID":
-                    throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
-                case "WRONG_PIN":
-                    throw new RequestException(RequestErrorCode.WRONG_PIN);
-                default:
-                    throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
-            }
+            return parsePinResponse(response.getBody());
 
         }catch (UnirestException e) {
-            throw new RequestException(RequestErrorCode.SOMETHING_WRONG);
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
         }
     }
 
@@ -56,7 +54,27 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or not enough money
      */
     public double receiveCash(String cardID, String pin, double cashSize) throws RequestException {
-        return 0;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidCashSize(cashSize)) throw new RequestException(RequestErrorCode.WRONG_CASHSIZE);
+
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/receive-cash")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID", cardID)
+                    .queryString("pinCode", pin)
+                    .queryString("cashSize", cashSize)
+                    .asJson();
+
+            return parseBalanceResponse(response.getBody().getObject());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
+
     }
 
     /**
@@ -69,7 +87,26 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters
      */
     public double addCash(String cardID, String pin, double cashSize) throws RequestException {
-        return 0;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidCashSize(cashSize)) throw new RequestException(RequestErrorCode.WRONG_CASHSIZE);
+
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/add-cash")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID", cardID)
+                    .queryString("pinCode", pin)
+                    .queryString("cashSize", cashSize)
+                    .asJson();
+
+            return parseBalanceResponse(response.getBody().getObject());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -81,7 +118,24 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters
      */
     public double getBalance(String cardID, String pin) throws RequestException {
-        return 0;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(pin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+
+        try {
+
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/customer/get-balance")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("cardID",cardID)
+                    .queryString("pinCode", pin)
+                    .asJson();
+
+            return parseBalanceResponse(response.getBody().getObject());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -92,8 +146,24 @@ public class DatabaseConnector {
      * @param newPin new PIN code of credit card
      * @throws RequestException if received incorrect parameters
      */
-    public void changePin(String cardID, String oldPin, String newPin) throws RequestException {
+    public boolean changePin(String cardID, String oldPin, String newPin) throws RequestException {
 
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidPin(oldPin)) throw new RequestException(RequestErrorCode.WRONG_PIN);
+        if(!isValidPin(newPin)) throw new RequestException(RequestErrorCode.WRONG_NEW_PIN);
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/change-pin")
+                    .queryString("cardID", cardID)
+                    .queryString("oldPin", oldPin)
+                    .queryString("newPin", newPin)
+                    .asString();
+
+            return parsePinResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -165,14 +235,14 @@ public class DatabaseConnector {
     }
 
     /**
-     * Checks security service key and blocks specified credit card
+     * Blocks specified credit card
      *
-     * @param serviceKey service key of ATM
      * @param cardID number of credit card
+     * @return {@code true} if card successfully blocked, else returns {@code false}
      * @throws RequestException if received incorrect parameters
      */
-    public void blockCard(String serviceKey, String cardID) throws RequestException {
-
+    public boolean blockCard(String cardID) throws RequestException {
+        return false;
     }
 
     /**
@@ -180,10 +250,11 @@ public class DatabaseConnector {
      *
      * @param serviceKey service key of ATM
      * @param cardID number of credit card
+     * @return {@code true} if specified card successfully is unblocked, else returns {@code false}
      * @throws RequestException if received incorrect parameters
      */
-    public void unblockCard(String serviceKey, String cardID) throws RequestException {
-
+    public boolean unblockCard(String serviceKey, String cardID) throws RequestException {
+        return false;
     }
 
     /**
@@ -203,4 +274,79 @@ public class DatabaseConnector {
     public void setDatabaseLocation(String databaseLocation) {
         this.databaseLocation = databaseLocation;
     }
+
+    /**
+     * Verifies PIN code
+     *
+     * @param pin PIN code for verifying
+     * @return {@code true} if specified PIN is correct, else returns {@code false}
+     */
+    private boolean isValidPin(String pin) {
+        return validPin.matcher(pin).matches();
+    }
+
+    /**
+     * Verifies number of credit card
+     *
+     * @param cardId number for verifying
+     * @return {@code true} if specified number of card is correct, else returns {@code false}
+     */
+    private boolean isValidCardId(String cardId) {
+        return  validCardId.matcher(cardId).matches();
+    }
+
+    /**
+     * Converts string of monetary type to double type
+     *
+     * @param money string of monetary type
+     * @return converted double value
+     */
+    private double convertMoneyToDouble(String money) {
+        return Double.parseDouble(money.substring(1).replaceAll(",", ""));
+    }
+
+    /**
+     * Verifies cash size
+     *
+     * @param cashSize value for verifying
+     * @return {@code true} if {@code cashSize} is correct, else returns {@code false}
+     */
+    private boolean isValidCashSize(double cashSize) {
+        return cashSize > 0;
+    }
+
+    /**
+     * Receives response from server as JSON object and chooses correct action for received balance
+     *
+     * @param response contain information about received balance
+     * @return balance of card as double
+     * @throws RequestException if received unsuccessfull response from server
+     */
+    private double parseBalanceResponse(JSONObject response) throws RequestException {
+
+        switch ((String) response.get("Result")) {
+            case "OK":
+                String balanceString = (String) response.get("Balance");
+                return convertMoneyToDouble(balanceString);
+            case "LOGIN_ERROR":
+                throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+            case "INSUFFICIENT_FUNDS":
+                throw new RequestException(RequestErrorCode.INSUFFICIENT_FUNDS);
+            default:
+                throw new RequestException(RequestErrorCode.FATAL_ERROR);
+        }
+    }
+
+    private boolean parsePinResponse(String response) throws RequestException {
+
+        switch (response) {
+            case "OK":
+                return true;
+            case "LOGIN_ERROR":
+                return false;
+            default:
+                throw new RequestException(RequestErrorCode.FATAL_ERROR);
+        }
+    }
+
 }
