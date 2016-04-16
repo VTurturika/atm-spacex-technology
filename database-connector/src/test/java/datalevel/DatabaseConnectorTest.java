@@ -91,6 +91,9 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void checkServiceKey() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Checking service key: " + connector.checkServiceKey("0000000000"));
+        System.out.println("Checking service key: " + connector.checkServiceKey("1234567890"));
     }
 
     @org.junit.Test

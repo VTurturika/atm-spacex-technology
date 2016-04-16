@@ -17,6 +17,7 @@ public class DatabaseConnector {
     private String databaseLocation = "https://spacex-technology.herokuapp.com/";
     private static Pattern validPin = Pattern.compile("^\\d{4}$");
     private static Pattern validCardId = Pattern.compile("^\\d{16}$");
+    private static Pattern validServiceKey = Pattern.compile("^\\d{10}$");
 
     /**
      * Checks PIN code of credit card
@@ -37,7 +38,7 @@ public class DatabaseConnector {
                     .queryString("pinCode", pin)
                     .asString();
 
-            return parsePinResponse(response.getBody());
+            return parseStringResponse(response.getBody());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -69,7 +70,7 @@ public class DatabaseConnector {
                     .queryString("cashSize", cashSize)
                     .asJson();
 
-            return parseBalanceResponse(response.getBody().getObject());
+            return parseJsonBalanceResponse(response.getBody().getObject());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -102,7 +103,7 @@ public class DatabaseConnector {
                     .queryString("cashSize", cashSize)
                     .asJson();
 
-            return parseBalanceResponse(response.getBody().getObject());
+            return parseJsonBalanceResponse(response.getBody().getObject());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -131,7 +132,7 @@ public class DatabaseConnector {
                     .queryString("pinCode", pin)
                     .asJson();
 
-            return parseBalanceResponse(response.getBody().getObject());
+            return parseJsonBalanceResponse(response.getBody().getObject());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -160,7 +161,7 @@ public class DatabaseConnector {
                     .queryString("newPin", newPin)
                     .asString();
 
-            return parsePinResponse(response.getBody());
+            return parseStringResponse(response.getBody());
 
         }catch (UnirestException e) {
             throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
@@ -192,7 +193,19 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean checkServiceKey(String serviceKey) throws RequestException {
-        return false;
+
+        if(!isValidServiceKey(serviceKey)) throw new RequestException(RequestErrorCode.WRONG_SERVICE_KEY);
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/service/check-service-key")
+                    .queryString("serviceKey", serviceKey)
+                    .asString();
+
+            return parseStringResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -294,17 +307,7 @@ public class DatabaseConnector {
      * @return {@code true} if specified number of card is correct, else returns {@code false}
      */
     private boolean isValidCardId(String cardId) {
-        return  validCardId.matcher(cardId).matches();
-    }
-
-    /**
-     * Converts string of monetary type to double type
-     *
-     * @param money string of monetary type
-     * @return converted double value
-     */
-    private double convertMoneyToDouble(String money) {
-        return Double.parseDouble(money.substring(1).replaceAll(",", ""));
+        return validCardId.matcher(cardId).matches();
     }
 
     /**
@@ -318,13 +321,33 @@ public class DatabaseConnector {
     }
 
     /**
+     * Verifies cash size
+     *
+     * @param serviceKey value for verifying
+     * @return {@code true} if {@code serviceKey} is correct, else returns {@code false}
+     */
+    private boolean isValidServiceKey(String serviceKey) {
+        return validServiceKey.matcher(serviceKey).matches();
+    }
+
+    /**
+     * Converts string of monetary type to double type
+     *
+     * @param money string of monetary type
+     * @return converted double value
+     */
+    private double convertMoneyToDouble(String money) {
+        return Double.parseDouble(money.substring(1).replaceAll(",", ""));
+    }
+
+    /**
      * Receives response as JSON object and chooses correct action for received balance
      *
      * @param response contains information about received balance
      * @return balance of card as double
      * @throws RequestException if received unsuccessfull response from server
      */
-    private double parseBalanceResponse(JSONObject response) throws RequestException {
+    private double parseJsonBalanceResponse(JSONObject response) throws RequestException {
 
         switch ((String) response.get("Result")) {
             case "OK":
@@ -346,7 +369,7 @@ public class DatabaseConnector {
      * @return {@code true} if received success response, else returns {@code true}
      * @throws RequestException if received incorrect response
      */
-    private boolean parsePinResponse(String response) throws RequestException {
+    private boolean parseStringResponse(String response) throws RequestException {
 
         switch (response) {
             case "OK":
