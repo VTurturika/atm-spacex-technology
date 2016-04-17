@@ -116,13 +116,17 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void getBlockedCards() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        String[] blockedCards = connector.getBlockedCards("1234567890");
     }
 
     @org.junit.Test
     public void blockCard() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        System.out.println("Try block card: " + connector.blockCard("1111222233334444"));
+        //System.out.println("Try block card: " + connector.blockCard("1111222233334444"));
+        connector.blockCard("0000111122223333");
+        connector.blockCard("1111222233334444");
 
     }
 
@@ -130,8 +134,9 @@ public class DatabaseConnectorTest {
     public void unblockCard() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        System.out.println("Try unblock card: " + connector.unblockCard("1234567890","1111222233334444"));
-
+       // System.out.println("Try unblock card: " + connector.unblockCard("1234567890","1111222233334444"));
+        connector.unblockCard("1234567890","0000111122223333");
+        connector.unblockCard("1234567890","1111222233334444");
     }
 
 }

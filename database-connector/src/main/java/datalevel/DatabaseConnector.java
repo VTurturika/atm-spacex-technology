@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
@@ -303,7 +304,40 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect serviceKey or server is disconnected
      */
     public String[] getBlockedCards(String serviceKey) throws RequestException {
-        return null;
+
+        if(!isValidServiceKey(serviceKey)) throw new RequestException(RequestErrorCode.WRONG_SERVICE_KEY);
+
+
+        try {
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/service/get-blocked-cards")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("serviceKey", serviceKey)
+                    .asJson();
+
+            switch (response.getBody().getObject().get("Result").toString()) {
+                case "OK":
+                    String[] blockedCards = null;
+
+                    JSONArray jsonBlockedCards = response.getBody().getObject().getJSONArray("BlockedCards");
+                    if(jsonBlockedCards.length() > 0) {
+
+                        blockedCards = new String[jsonBlockedCards.length()];
+                        for (int i = 0; i <jsonBlockedCards.length() ; i++) {
+                            blockedCards[i] = ((JSONObject) jsonBlockedCards.get(i)).get("CardID").toString();
+                        }
+                    }
+                    return blockedCards;
+
+                case "LOGIN_ERROR":
+                    return null;
+                default:
+                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
+            }
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
