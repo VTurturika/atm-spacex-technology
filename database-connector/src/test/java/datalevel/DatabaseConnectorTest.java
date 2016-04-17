@@ -57,7 +57,7 @@ public class DatabaseConnectorTest {
     public void changePin() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "1111", "0000"));
+        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "0000", "1111"));
     }
 
     @org.junit.Test
@@ -99,6 +99,10 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void createAccount() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.print("Try to create new account:");
+        int accountID = connector.createAccount("1234567890", "Василь", "Петрович", "Коваленко", 40, "Київ");
+        System.out.println(" successfully created with #" + accountID);
     }
 
     @org.junit.Test
@@ -114,10 +118,16 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void blockCard() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Try block card: " + connector.blockCard("1111222233334444"));
+
     }
 
     @org.junit.Test
     public void unblockCard() throws Exception {
+
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Try unblock card: " + connector.unblockCard("1234567890","1111222233334444"));
 
     }
 

@@ -223,8 +223,39 @@ public class DatabaseConnector {
     public int createAccount(String serviceKey, String customerFirstName,
                              String customerMiddleName, String customerLastName,
                              int customerAge, String customerAddress) throws RequestException {
-        return 0;
+
+       if(!isValidServiceKey(serviceKey)) throw new RequestException(RequestErrorCode.WRONG_SERVICE_KEY);
+       if(customerFirstName.length() > 100) throw new RequestException(RequestErrorCode.TO_LONG_FIRST_NAME);
+       if(customerMiddleName.length() > 100) throw new RequestException(RequestErrorCode.TO_LONG_MIDDLE_NAME);
+       if(customerLastName.length() > 100) throw new RequestException(RequestErrorCode.TO_LONG_LAST_NAME);
+       if(customerAddress.length() > 1024) throw new RequestException(RequestErrorCode.TO_LONG_ADDRESS);
+       if(customerAge < 18) throw new RequestException(RequestErrorCode.WRONG_AGE);
+
+        try {
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/service/create-account")
+                    .queryString("serviceKey",serviceKey)
+                    .queryString("customerFirstName", customerFirstName)
+                    .queryString("customerMiddleName", customerMiddleName)
+                    .queryString("customerLastName", customerLastName)
+                    .queryString("customerAge", customerAge)
+                    .queryString("customerAddress", customerAddress)
+                    .asJson();
+
+            switch (response.getBody().getObject().get("Result").toString()) {
+                case "OK":
+                    String accountIdStr = response.getBody().getObject().get("AccountID").toString();
+                    return Integer.parseInt(accountIdStr);
+                case "LOGIN_ERROR":
+                    throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+                default:
+                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
+            }
+
+        } catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
+
 
     /**
      * Checks security service key and adds new credit card to specified bank account
@@ -257,7 +288,19 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean blockCard(String cardID) throws RequestException {
-        return false;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/service/block-card")
+                    .queryString("cardID", cardID)
+                    .asString();
+
+            return parseStringResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
@@ -269,7 +312,21 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public boolean unblockCard(String serviceKey, String cardID) throws RequestException {
-        return false;
+
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        if(!isValidServiceKey(serviceKey)) throw new RequestException(RequestErrorCode.WRONG_SERVICE_KEY);
+
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/service/unblock-card")
+                    .queryString("cardID", cardID)
+                    .queryString("serviceKey", serviceKey)
+                    .asString();
+
+            return parseStringResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
