@@ -233,6 +233,8 @@ public class DatabaseConnector {
 
         try {
             HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/service/create-account")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
                     .queryString("serviceKey",serviceKey)
                     .queryString("customerFirstName", customerFirstName)
                     .queryString("customerMiddleName", customerMiddleName)
@@ -266,7 +268,31 @@ public class DatabaseConnector {
      * @throws RequestException if received incorrect parameters or server is disconnected
      */
     public String addCard(String serviceKey, int accountID) throws RequestException {
-        return "";
+
+        if(!isValidServiceKey(serviceKey)) throw new RequestException(RequestErrorCode.WRONG_SERVICE_KEY);
+        if(accountID < 1) throw new RequestException(RequestErrorCode.WRONG_ACCOUNT);
+
+        try {
+            HttpResponse<JsonNode> response = Unirest.post(databaseLocation + "/service/add-card")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("serviceKey", serviceKey)
+                    .queryString("accountID", accountID)
+                    .asJson();
+
+            switch (response.getBody().getObject().get("Result").toString()) {
+                case "OK":
+                    return response.getBody().getObject().get("CardID").toString();
+                case "LOGIN_ERROR":
+                    throw new RequestException(RequestErrorCode.LOGIN_ERROR);
+                default:
+                    throw new RequestException(RequestErrorCode.FATAL_ERROR);
+            }
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
+
     }
 
     /**

@@ -108,6 +108,9 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void addCard() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Adding card : " + connector.addCard("1234567890", 1) + " successfully added");
+
     }
 
     @org.junit.Test
