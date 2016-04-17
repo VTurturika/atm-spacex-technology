@@ -20,7 +20,6 @@ import datalevel.RequestException;
 public class AtmClient {
     CreditCard currentCard;
     DatabaseConnector connector;
-    //TODO: implement methods according to connect with connector
 
     private static final AtmClient instance = new AtmClient();
     private AtmClient() { }
@@ -110,6 +109,14 @@ public class AtmClient {
      * @param connector {@code DatabaseConnector} instance
      */
     public void setConnector(DatabaseConnector connector) {
-        this.connector = connector;
+        if(connector.testConnection()) this.connector = connector;
+    }
+
+    public void blockCard(CreditCard c) {
+        try {
+            if(connector.blockCard(c.getCardId())) c.lockCard();
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 public class ServiceWorker {
     String serviceKey;
     DatabaseConnector connector = new DatabaseConnector();
-    //TODO: implement methods according to connect with connector
 
     /**
      * @param serviceKey
@@ -60,21 +59,27 @@ public class ServiceWorker {
      * @see CreditCard
      */
     public void addNewCreditCard(BankAccount b) {
-        b.addCard(new CreditCard());
+        try {
+            b.addCard(new CreditCard(connector.addCard(this.serviceKey, b.getAccountId())));
+
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    /**
-     * Adds specified {@code CreditCard} to specified {@code BankAccount}
-     *
-     * @param b {@code BankAccount} where to put new {@code CreditCard}
-     * @param c {@code CreditCard} to add
-     *
-     * @see BankAccount
-     * @see CreditCard
-     */
-    public void addCreditCard(BankAccount b, CreditCard c) {
-        b.addCard(c);
-    }
+//    /**
+//     * Adds specified {@code CreditCard} to specified {@code BankAccount}
+//     *
+//     * @param b {@code BankAccount} where to put new {@code CreditCard}
+//     * @param c {@code CreditCard} to add
+//     *
+//     * @see BankAccount
+//     * @see CreditCard
+//     */
+//    public void addCreditCard(BankAccount b, CreditCard c) {
+//        b.addCard(c);
+//    }
 
     /**
      * Unlocks {@code CreditCard} on server and here
@@ -82,12 +87,12 @@ public class ServiceWorker {
      * @param c potentially locked {@code CreditCard}
      */
     public void unlockCard(CreditCard c) {
-        //TODO: Maybe change returning type to Boolean and tell caller result of operation?
+
         try {
             List<String> blockedCards = Arrays.asList(connector.getBlockedCards(serviceKey));
             if(blockedCards.contains(c.cardId)) {
                 c.unlockCard();
-                blockedCards.remove(c);
+                connector.unblockCard(this.serviceKey, c.getCardId());
             }
         } catch(RequestException e) {
             e.printStackTrace();
@@ -95,12 +100,12 @@ public class ServiceWorker {
     }
 
     /**
-     * TODO: Currently uknown
+     * Fills MoneyVault with cash
      *
      * @param cash
      */
-    public void addCash(Double cash) {
-        //TODO: fill atm with money
+    public void addCash(MoneyVault mv, Double cash) {
+        mv.addCash(cash);
     }
 
     /**
