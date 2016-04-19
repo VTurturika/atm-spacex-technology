@@ -57,7 +57,7 @@ public class DatabaseConnectorTest {
     public void changePin() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "1111", "0000"));
+        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "0000", "1111"));
     }
 
     @org.junit.Test
@@ -91,31 +91,52 @@ public class DatabaseConnectorTest {
     @org.junit.Test
     public void checkServiceKey() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Checking service key: " + connector.checkServiceKey("0000000000"));
+        System.out.println("Checking service key: " + connector.checkServiceKey("1234567890"));
     }
 
     @org.junit.Test
     public void createAccount() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.print("Try to create new account:");
+        int accountID = connector.createAccount("1234567890", "Василь", "Петрович", "Коваленко", 40, "Київ");
+        System.out.println(" successfully created with #" + accountID);
     }
 
     @org.junit.Test
     public void addCard() throws Exception {
+
+        DatabaseConnector connector = new DatabaseConnector();
+        System.out.println("Adding card : " + connector.addCard("1234567890", 1) + " successfully added");
 
     }
 
     @org.junit.Test
     public void getBlockedCards() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+        String[] blockedCards = connector.getBlockedCards("1234567890");
     }
 
     @org.junit.Test
     public void blockCard() throws Exception {
+
+        DatabaseConnector connector = new DatabaseConnector();
+        //System.out.println("Try block card: " + connector.blockCard("1111222233334444"));
+        connector.blockCard("0000111122223333");
+        connector.blockCard("1111222233334444");
 
     }
 
     @org.junit.Test
     public void unblockCard() throws Exception {
 
+        DatabaseConnector connector = new DatabaseConnector();
+       // System.out.println("Try unblock card: " + connector.unblockCard("1234567890","1111222233334444"));
+        connector.unblockCard("1234567890","0000111122223333");
+        connector.unblockCard("1234567890","1111222233334444");
     }
 
 }
