@@ -87,7 +87,7 @@ public class AtmClient {
      */
     public Double withdrawCash(Double money) throws RequestException {
         try {
-            if(currentCard.isLocked) throw new IllegalStateException("Card is blocked");
+            if(currentCard.isLocked) throw new RequestException(RequestErrorCode.CARD_BLOCKED);
             if(vault.hasMoney(money)) {
                 currentCard.setBalance(connector.receiveCash(currentCard.getCardId(), currentCard.getPinCode(), money));
                 currentCard.setTryCounter(0);
