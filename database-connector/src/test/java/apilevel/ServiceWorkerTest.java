@@ -21,15 +21,15 @@ public class ServiceWorkerTest {
 
     @Test
     public void testServiceWorker() {
-        ServiceWorker sw = new ServiceWorker("ServiceKey", new DatabaseConnector());
+        ServiceWorker sw = new ServiceWorker("ServiceKey");
 
         try {
-            Person p = new Person();
-            BankAccount b = sw.createNewAccount(p);
-            sw.addNewCreditCard(b);
             AtmClient atmClient = AtmClient.getInstance();
+            Person p = new Person();
+            BankAccount b = sw.createNewAccount(p, atmClient.getConnector());
+            sw.addNewCreditCard(b, atmClient.getConnector());
             atmClient.blockCard(b.getCreditCards().get(0));
-            sw.unlockCard(b.getCreditCards().get(0));
+            sw.unlockCard(b.getCreditCards().get(0), atmClient.getConnector());
             sw.addCash(100.0);
         } catch(RequestException e) {
             e.printStackTrace();

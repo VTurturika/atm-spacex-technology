@@ -7,9 +7,7 @@ package apilevel;
  *
  */
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +21,7 @@ import java.util.logging.Logger;
 public class MoneyVault {
     Logger logger = Logger.getLogger(MoneyVault.class.getName());
     Map<Integer, Integer> vault;
-    int[] notes = { 1, 2, 5, 10, 20, 50, 100, 200, 500 };
+    int[] notes = {1, 2, 5, 10, 20, 50, 100, 200, 500};
 
     /**
      * Constructor
@@ -38,7 +36,9 @@ public class MoneyVault {
 
     /**
      * Withdraws money from Vault
+     *
      * @param cash amount of money you want to withdraw
+     *
      * @return {@code MoneyVault} after withdraw
      */
     public Map<Integer, Integer> withdrawCash(Double cash) {
@@ -56,7 +56,9 @@ public class MoneyVault {
 
     /**
      * Checks if vault has that amount of money
+     *
      * @param cash number of money that you want to withdraw in future
+     *
      * @return {@code true} if vault has that money
      */
     public boolean hasMoney(Double cash) {
@@ -68,6 +70,7 @@ public class MoneyVault {
 
     /**
      * Transforms {@code HashMap} of notes into one {@code Double} value
+     *
      * @return {@code Double} money
      */
     public Double getCashValue() {
@@ -80,7 +83,9 @@ public class MoneyVault {
 
     /**
      * Adds money to {@code MoneyVault} instance
+     *
      * @param cash money you wan't to put into vault
+     *
      * @return {@code MoneyVault} instance after adding money
      */
     public Map<Integer, Integer> addCashToVault(Double cash) {

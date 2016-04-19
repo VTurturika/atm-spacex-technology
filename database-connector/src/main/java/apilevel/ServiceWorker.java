@@ -21,26 +21,26 @@ import java.util.List;
  */
 public class ServiceWorker {
     String serviceKey;
-    DatabaseConnector connector = new DatabaseConnector();
 
     /**
      * @param serviceKey
-     * @param connector
      */
-    public ServiceWorker(String serviceKey, DatabaseConnector connector) {
+    public ServiceWorker(String serviceKey) {
         this.serviceKey = serviceKey;
-        this.connector = connector;
     }
 
     /**
      * Creates new {@code BankAccount} on server and here
      *
-     * @param p data about customer
+     * @param p         data about customer
+     * @param connector {@code DatabaseConnector}
      *
      * @return BankAccount of {@code p}
+     * @throws RequestException
      * @see BankAccount
+     * @see DatabaseConnector
      */
-    public BankAccount createNewAccount(Person p) throws RequestException {
+    public BankAccount createNewAccount(Person p, DatabaseConnector connector) throws RequestException {
         try {
             return new BankAccount(connector.createAccount(serviceKey, p.getFirstName(), p.getMiddleName(), p.getLastName
                     (), p.getAge(), p.getAdress()), p);
@@ -52,40 +52,47 @@ public class ServiceWorker {
     /**
      * Adds new (empty) {@code CreditCard} to specified {@code BankAccount}
      *
-     * @param b {@code BankAccount} where to put new {@code CreditCard}
+     * @param b         {@code BankAccount} where to put new {@code CreditCard}
+     * @param connector {@code DatabaseConnector}
      *
+     * @throws RequestException
+     * @see DatabaseConnector
      * @see BankAccount
      * @see CreditCard
      */
-    public void addNewCreditCard(BankAccount b) throws RequestException {
+    public void addNewCreditCard(BankAccount b, DatabaseConnector connector) throws RequestException {
         try {
             b.addCard(new CreditCard(connector.addCard(this.serviceKey, b.getAccountId())));
 
-        } catch (RequestException e) {
+        } catch(RequestException e) {
             throw e;
         }
 
     }
 
-//    /**
-//     * Adds specified {@code CreditCard} to specified {@code BankAccount}
-//     *
-//     * @param b {@code BankAccount} where to put new {@code CreditCard}
-//     * @param c {@code CreditCard} to add
-//     *
-//     * @see BankAccount
-//     * @see CreditCard
-//     */
-//    public void addCreditCard(BankAccount b, CreditCard c) {
-//        b.addCard(c);
-//    }
+    //    /**
+    //     * Adds specified {@code CreditCard} to specified {@code BankAccount}
+    //     *
+    //     * @param b {@code BankAccount} where to put new {@code CreditCard}
+    //     * @param c {@code CreditCard} to add
+    //     *
+    //     * @see BankAccount
+    //     * @see CreditCard
+    //     */
+    //    public void addCreditCard(BankAccount b, CreditCard c) {
+    //        b.addCard(c);
+    //    }
 
     /**
      * Unlocks {@code CreditCard} on server and here
      *
-     * @param c potentially locked {@code CreditCard}
+     * @param c         potentially locked {@code CreditCard}
+     * @param connector {@code DatabaseConnector}
+     *
+     * @throws RequestException
+     * @see DatabaseConnector
      */
-    public void unlockCard(CreditCard c) throws RequestException {
+    public void unlockCard(CreditCard c, DatabaseConnector connector) throws RequestException {
 
         try {
             List<String> blockedCards = Arrays.asList(connector.getBlockedCards(serviceKey));
@@ -120,9 +127,11 @@ public class ServiceWorker {
      * Sets {@code serviceKey} to specified value if it's {@code serviceKey} of existing {@code ServiceWorker}
      *
      * @param serviceKey
+     * @param connector
+     *
      * @throws RequestException
      */
-    public void setServiceKey(String serviceKey) throws RequestException {
+    public void setServiceKey(String serviceKey, DatabaseConnector connector) throws RequestException {
         try {
             if(connector.checkServiceKey(serviceKey)) this.serviceKey = serviceKey;
         } catch(RequestException e) {

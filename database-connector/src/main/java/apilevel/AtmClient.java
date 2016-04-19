@@ -66,6 +66,7 @@ public class AtmClient {
      * Synchronizes balance of the {@code currentCard} with server
      *
      * @return balance of {@code currentCard}
+     * @throws RequestException
      */
     public Double showBalance() throws RequestException {
         try {
@@ -84,6 +85,7 @@ public class AtmClient {
      *
      * @return {@code CreditCard.getBalance()}
      * @see CreditCard
+     * @throws RequestException
      */
     public Double withdrawCash(Double money) throws RequestException {
         try {
@@ -106,6 +108,7 @@ public class AtmClient {
      *
      * @return {@code CreditCard.getBalance()}
      * @see CreditCard
+     * @throws RequestException
      */
     public Double addCash(Double money) throws RequestException {
         try {
