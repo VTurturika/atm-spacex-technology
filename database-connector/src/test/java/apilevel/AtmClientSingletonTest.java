@@ -65,8 +65,7 @@ public class AtmClientSingletonTest {
             atmClientSingleton.setConnector(new DatabaseConnector());
 
             double balance = atmClientSingleton.showBalance();
-            atmClientSingleton.addCash(10.0);
-            Assert.assertEquals(balance + 10.0, balance, DELTA);
+            Assert.assertEquals(balance + 10.0, atmClientSingleton.addCash(10.0), DELTA);
 
         } catch(Exception e) {
             e.printStackTrace();
