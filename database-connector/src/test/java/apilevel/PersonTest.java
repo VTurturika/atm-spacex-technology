@@ -7,6 +7,7 @@ package apilevel;
  *
  */
 
+import datalevel.RequestException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,8 +26,12 @@ public class PersonTest {
     @Test
     public void initTestPerson() {
         log.log(Level.INFO, "Should be Person with 4 String fields of text");
-        Person expected = new Person();
-        Person actual = new Person("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
-        Assert.assertEquals(expected, actual);
+        try {
+            Person expected = new Person();
+            Person actual = new Person("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
+            Assert.assertEquals(expected, actual);
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
     }
 }

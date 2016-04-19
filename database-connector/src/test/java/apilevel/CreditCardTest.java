@@ -27,10 +27,9 @@ public class CreditCardTest {
     public void changePin() {
         try {
             CreditCard c = new CreditCard("0000111122223333");
-            DatabaseConnector d = new DatabaseConnector();
             c.setPinCode("1111");
             Assert.assertEquals(c.getPinCode(), "1111");
-            new DatabaseConnector().changePin("0000111122223333", "1111", "0000");
+            c.setPinCode("0000");
             Assert.assertEquals(c.getPinCode(), "0000");
         } catch(Exception e) {
             e.printStackTrace();
