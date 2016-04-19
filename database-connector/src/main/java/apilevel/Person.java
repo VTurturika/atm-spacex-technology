@@ -7,6 +7,9 @@ package apilevel;
  *
  */
 
+import datalevel.RequestErrorCode;
+import datalevel.RequestException;
+
 import java.util.Objects;
 
 /**
@@ -22,16 +25,16 @@ public class Person {
     String adress;
     Integer age;
 
-    Person() {
+    Person() throws RequestException {
         this("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
     }
 
-    public Person(String lastName, String firstName, String middleName, String adress, Integer age) {
+    public Person(String lastName, String firstName, String middleName, String adress, Integer age) throws RequestException {
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
         this.adress = adress;
-        if(age < 18) throw new IllegalArgumentException(age + " should be at least 18, you pedophile!");
+        if(age < 18) throw new RequestException(RequestErrorCode.WRONG_AGE);
         this.age = age;
     }
 
