@@ -136,6 +136,11 @@ public class AtmClient {
         if(connector.testConnection()) this.connector = connector;
     }
 
+    /**
+     * Blocks card
+     * @param c {@code CreditCard} you wan't to block
+     * @throws RequestException
+     */
     public void blockCard(CreditCard c) throws RequestException {
         try {
             if(connector.blockCard(c.getCardId())) c.lockCard();
@@ -144,6 +149,11 @@ public class AtmClient {
         }
     }
 
+    /**
+     * Changes pin for {@code currentCard}
+     * @param newPin desired pincode ("XXXX")
+     * @throws RequestException
+     */
     public void changePin(String newPin) throws RequestException {
         try {
             if(connector.changePin(currentCard.getCardId(), currentCard.getPinCode(), newPin)) currentCard.setPinCode
