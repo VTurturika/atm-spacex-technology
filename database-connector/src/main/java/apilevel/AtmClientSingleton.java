@@ -1,7 +1,7 @@
 package apilevel;
 
  /*
- * AtmClient   4/15/16, 10:32
+ * AtmClientSingleton   4/15/16, 10:32
  *
  * By Kyrylo Havrylenko
  *
@@ -18,21 +18,21 @@ import datalevel.RequestException;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class AtmClient {
-    private static final AtmClient instance = new AtmClient();
+public class AtmClientSingleton {
+    private static final AtmClientSingleton instance = new AtmClientSingleton();
     CreditCard currentCard;
     DatabaseConnector connector;
     MoneyVault vault = new MoneyVault();
 
-    private AtmClient() {
+    private AtmClientSingleton() {
     }
 
     /**
      * Singleton
      *
-     * @return {@code AtmClient} instance
+     * @return {@code AtmClientSingleton} instance
      */
-    public static AtmClient getInstance() {
+    public static AtmClientSingleton getInstance() {
         return instance;
     }
 
