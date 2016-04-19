@@ -25,10 +25,23 @@ public class Person {
     String adress;
     Integer age;
 
+    /**
+     * Constructor
+     * @throws RequestException
+     */
     Person() throws RequestException {
         this("Тестовый", "Пользователь", "Петрович", "Киевская, 7", 20);
     }
 
+    /**
+     * Constructor
+     * @param lastName
+     * @param firstName
+     * @param middleName
+     * @param adress
+     * @param age
+     * @throws RequestException
+     */
     public Person(String lastName, String firstName, String middleName, String adress, Integer age) throws RequestException {
         this.lastName = lastName;
         this.firstName = firstName;
