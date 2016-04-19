@@ -81,17 +81,25 @@ public class AtmClientSingletonTest {
         atmClientSingleton.setCurrentCard(new CreditCard());
 
         try {
+            double expectedBalance = atmClientSingleton.showBalance();
+            double actualBalance = 0.0;
             atmClientSingleton.addCash(10.0);
-            Assert.assertEquals(atmClientSingleton.showBalance(), 10.0, DELTA);
+            expectedBalance += 10.0;
+            actualBalance = atmClientSingleton.showBalance();
+            Assert.assertEquals(expectedBalance, actualBalance, DELTA);
+            System.out.println(expectedBalance + " " + actualBalance);
 
-            atmClientSingleton.withdrawCash(10.0);
-            Assert.assertEquals(atmClientSingleton.showBalance(), 0.0, DELTA);
+//            atmClientSingleton.withdrawCash(10.0);
+            expectedBalance -= 10.0;
+            actualBalance = atmClientSingleton.showBalance();
+//            new DatabaseConnector().receiveCash("0000111122223333", "0000", 10);
+            Assert.assertEquals(expectedBalance, actualBalance, DELTA);
 
             atmClientSingleton.changePin("0001");
-            Assert.assertEquals(atmClientSingleton.getCurrentCard().getPinCode(), "0001");
+            Assert.assertEquals("0001", atmClientSingleton.getCurrentCard().getPinCode());
 
             atmClientSingleton.changePin("0000");
-            Assert.assertEquals(atmClientSingleton.getCurrentCard().getPinCode(), "0000");
+            Assert.assertEquals("0000", atmClientSingleton.getCurrentCard().getPinCode());
 
 
         } catch(RequestException e) {
