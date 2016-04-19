@@ -40,14 +40,13 @@ public class ServiceWorker {
      * @return BankAccount of {@code p}
      * @see BankAccount
      */
-    public BankAccount createNewAccount(Person p) {
+    public BankAccount createNewAccount(Person p) throws RequestException {
         try {
             return new BankAccount(connector.createAccount(serviceKey, p.getFirstName(), p.getMiddleName(), p.getLastName
                     (), p.getAge(), p.getAdress()), p);
         } catch(RequestException e) {
-            e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
     /**
@@ -58,12 +57,12 @@ public class ServiceWorker {
      * @see BankAccount
      * @see CreditCard
      */
-    public void addNewCreditCard(BankAccount b) {
+    public void addNewCreditCard(BankAccount b) throws RequestException {
         try {
             b.addCard(new CreditCard(connector.addCard(this.serviceKey, b.getAccountId())));
 
         } catch (RequestException e) {
-            e.printStackTrace();
+            throw e;
         }
 
     }
@@ -86,7 +85,7 @@ public class ServiceWorker {
      *
      * @param c potentially locked {@code CreditCard}
      */
-    public void unlockCard(CreditCard c) {
+    public void unlockCard(CreditCard c) throws RequestException {
 
         try {
             List<String> blockedCards = Arrays.asList(connector.getBlockedCards(serviceKey));
@@ -95,7 +94,7 @@ public class ServiceWorker {
                 connector.unblockCard(this.serviceKey, c.getCardId());
             }
         } catch(RequestException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -104,8 +103,8 @@ public class ServiceWorker {
      *
      * @param cash
      */
-    public void addCash(MoneyVault mv, Double cash) {
-        mv.addCash(cash);
+    public void addCash(Double cash) {
+        AtmClient.getInstance().getVault().addCashToVault(cash);
     }
 
     /**
@@ -121,8 +120,17 @@ public class ServiceWorker {
      * Sets {@code serviceKey} to specified value if it's {@code serviceKey} of existing {@code ServiceWorker}
      *
      * @param serviceKey
+     * @throws RequestException
      */
-    public void setServiceKey(String serviceKey) {
-        if(connector.checkServiceKey(serviceKey)) this.serviceKey = serviceKey;
+    public void setServiceKey(String serviceKey) throws RequestException {
+        try {
+            if(connector.checkServiceKey(serviceKey)) this.serviceKey = serviceKey;
+        } catch(RequestException e) {
+            throw e;
+        }
+    }
+
+    public void createFileForCreditCard(CreditCard c) {
+        // TODO: CREATE FILE
     }
 }

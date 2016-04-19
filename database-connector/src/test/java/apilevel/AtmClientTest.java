@@ -8,6 +8,7 @@ package apilevel;
  */
 
 import datalevel.DatabaseConnector;
+import datalevel.RequestException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -70,5 +71,32 @@ public class AtmClientTest {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void fakeController() {
+        // how this could be not taxi?
+        AtmClient atmClient = AtmClient.getInstance();
+        atmClient.setConnector(new DatabaseConnector());
+        atmClient.setCurrentCard(new CreditCard());
+
+        try {
+            atmClient.addCash(10.0);
+            Assert.assertEquals(atmClient.showBalance(), 10.0, DELTA);
+
+            atmClient.withdrawCash(10.0);
+            Assert.assertEquals(atmClient.showBalance(), 0.0, DELTA);
+
+            atmClient.changePin("0001");
+            Assert.assertEquals(atmClient.getCurrentCard().getPinCode(), "0001");
+
+            atmClient.changePin("0000");
+            Assert.assertEquals(atmClient.getCurrentCard().getPinCode(), "0000");
+
+
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
+
     }
 }

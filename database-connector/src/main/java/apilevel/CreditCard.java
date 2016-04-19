@@ -18,12 +18,13 @@ public class CreditCard {
     Double balance;
     Boolean isLocked;
     String pinCode;
+    int tryCounter = 0;
 
     /**
      * Creates empty {@code CreditCard}
      */
     public CreditCard() {
-        this("0000000000000000", 0.00, false, "0000");
+        this("0000111122223333", 0.00, false, "0000");
     }
 
     /**
@@ -132,5 +133,18 @@ public class CreditCard {
      */
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
+    }
+
+    public int getTryCounter() {
+        return tryCounter;
+    }
+
+    public boolean setTryCounter(int tryCounter) {
+        this.tryCounter = tryCounter;
+        if(this.tryCounter > 3) {
+            lockCard();
+            return true;
+        }
+        return false;
     }
 }
