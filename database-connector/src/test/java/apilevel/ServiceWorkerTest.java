@@ -7,7 +7,6 @@ package apilevel;
  *
  */
 
-import datalevel.DatabaseConnector;
 import datalevel.RequestException;
 import org.junit.Test;
 
@@ -24,12 +23,12 @@ public class ServiceWorkerTest {
         ServiceWorker sw = new ServiceWorker("ServiceKey");
 
         try {
-            AtmClient atmClient = AtmClient.getInstance();
+            AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
             Person p = new Person();
-            BankAccount b = sw.createNewAccount(p, atmClient.getConnector());
-            sw.addNewCreditCard(b, atmClient.getConnector());
-            atmClient.blockCard(b.getCreditCards().get(0));
-            sw.unlockCard(b.getCreditCards().get(0), atmClient.getConnector());
+            BankAccount b = sw.createNewAccount(p, atmClientSingleton.getConnector());
+            sw.addNewCreditCard(b, atmClientSingleton.getConnector());
+            atmClientSingleton.blockCard(b.getCreditCards().get(0));
+            sw.unlockCard(b.getCreditCards().get(0), atmClientSingleton.getConnector());
             sw.addCash(100.0);
         } catch(RequestException e) {
             e.printStackTrace();

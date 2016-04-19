@@ -73,7 +73,7 @@ public class CreditCard {
      * Returns balance of the card
      *
      * @return {@code balance}
-     * @see AtmClient
+     * @see AtmClientSingleton
      */
     Double getBalance() {
         return balance;

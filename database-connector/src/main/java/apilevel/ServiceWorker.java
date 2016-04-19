@@ -111,7 +111,7 @@ public class ServiceWorker {
      * @param cash
      */
     public void addCash(Double cash) {
-        AtmClient.getInstance().getVault().addCashToVault(cash);
+        AtmClientSingleton.getInstance().getVault().addCashToVault(cash);
     }
 
     /**
