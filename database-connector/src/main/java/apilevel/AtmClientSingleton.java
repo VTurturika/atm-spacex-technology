@@ -94,6 +94,8 @@ public class AtmClientSingleton {
                 currentCard.setBalance(connector.receiveCash(currentCard.getCardId(), currentCard.getPinCode(), money));
                 currentCard.setTryCounter(0);
                 vault.withdrawCash(money);
+            } else {
+                throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
             }
         } catch(RequestException e) {
             catchRequestExceptionWhenPinUsed(e);

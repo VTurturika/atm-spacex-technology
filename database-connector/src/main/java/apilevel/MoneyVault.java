@@ -7,6 +7,9 @@ package apilevel;
  *
  */
 
+import datalevel.RequestErrorCode;
+import datalevel.RequestException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -40,8 +43,10 @@ public class MoneyVault {
      * @param cash amount of money you want to withdraw
      *
      * @return {@code MoneyVault} after withdraw
+     * @throws RequestException
      */
-    public Map<Integer, Integer> withdrawCash(Double cash) {
+    public Map<Integer, Integer> withdrawCash(Double cash) throws RequestException {
+        if(!hasMoney(cash)) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
         while(cash != 0) {
             for(int i = notes.length - 1; i > 0; i--) {
                 if(cash % notes[i] == 0) {

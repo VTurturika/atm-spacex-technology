@@ -88,7 +88,10 @@ public class AtmClientSingletonTest {
             Assert.assertEquals(expectedBalance, actualBalance, DELTA);
             System.out.println(expectedBalance + " " + actualBalance);
 
-//            atmClientSingleton.withdrawCash(10.0);
+            ServiceWorker sw = new ServiceWorker("1234567890");
+            sw.addCash(10.0);
+
+            atmClientSingleton.withdrawCash(10.0);
             expectedBalance -= 10.0;
             actualBalance = atmClientSingleton.showBalance();
 //            new DatabaseConnector().receiveCash("0000111122223333", "0000", 10);
