@@ -1,4 +1,3 @@
 .idea/
-atm-spacex-technology/target/
-atm-spacex-technology/*.iml
-atm-spacex-technology/.idea/
+target/
+*.iml
