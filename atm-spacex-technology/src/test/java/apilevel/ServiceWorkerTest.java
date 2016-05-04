@@ -7,6 +7,7 @@ package apilevel;
  *
  */
 
+import datalevel.DatabaseConnector;
 import datalevel.RequestException;
 import org.junit.Test;
 
@@ -20,10 +21,11 @@ public class ServiceWorkerTest {
 
     @Test
     public void testServiceWorker() {
-        ServiceWorker sw = new ServiceWorker("ServiceKey");
+        ServiceWorker sw = new ServiceWorker("1234567890");
 
         try {
             AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
+            atmClientSingleton.setConnector(new DatabaseConnector());
             Person p = new Person();
             BankAccount b = sw.createNewAccount(p, atmClientSingleton.getConnector());
             sw.addNewCreditCard(b, atmClientSingleton.getConnector());

@@ -7,8 +7,6 @@ package apilevel;
  *
  */
 
-import datalevel.DatabaseConnector;
-import datalevel.RequestException;
 import org.junit.Assert;
 import org.junit.Test;
 

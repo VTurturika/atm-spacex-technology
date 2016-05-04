@@ -51,7 +51,7 @@ public class MoneyVaultTest {
         try {
             MoneyVault mv = new MoneyVault();
             mv.addCashToVault(10.0);
-            mv.withdrawCash(10.0);
+            mv.withdrawCash(10.0); //TODO WTF? Here throw NOT_ENOUGH_MONEY_IN_VAULT exception
             Assert.assertEquals(mv.getCashValue(), 0.0, DELTA);
         } catch(RequestException e) {
             e.printStackTrace();

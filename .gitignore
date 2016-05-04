@@ -1,3 +1,4 @@
 .idea/
-database-connector/target/
-database-connector/database-connector.iml
+atm-spacex-technology/target/
+atm-spacex-technology/*.iml
+atm-spacex-technology/.idea/
