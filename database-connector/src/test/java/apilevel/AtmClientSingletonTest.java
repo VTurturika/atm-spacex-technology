@@ -44,11 +44,14 @@ public class AtmClientSingletonTest {
             AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
             atmClientSingleton.setCurrentCard(new CreditCard("0000111122223333"));
             atmClientSingleton.setConnector(new DatabaseConnector());
+            MoneyVault mv = new MoneyVault();
+            mv.addCashToVault(100.0);
+            atmClientSingleton.setVault(mv);
 
             double balance = atmClientSingleton.showBalance();
             atmClientSingleton.withdrawCash(10.0);
             if(balance != 0) {
-                Assert.assertEquals(balance, balance - 10.0, DELTA);
+                Assert.assertEquals(atmClientSingleton.showBalance(), balance - 10.0, DELTA);
             } else {
                 Assert.assertEquals(balance, 0, DELTA);
             }

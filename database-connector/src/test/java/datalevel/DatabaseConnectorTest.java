@@ -10,7 +10,6 @@ public class DatabaseConnectorTest {
     public void checkPin() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        assertTrue(connector.checkPin("0000111122223333", "0000"));
         assertTrue(connector.checkPin("1111222233334444", "0000"));
         assertFalse(connector.checkPin("0000111122223333", "0001"));
         assertFalse(connector.checkPin("0111222233334444", "0000"));
@@ -57,7 +56,10 @@ public class DatabaseConnectorTest {
     public void changePin() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        System.out.println("Try change pin : " + connector.changePin("0000111122223333", "0000", "1111"));
+
+        assertTrue(connector.changePin("0000111122223333", "0000", "1111"));
+        assertTrue(connector.changePin("0000111122223333", "1111", "0000"));
+        assertFalse(connector.changePin("0000111122223333", "1111", "0000"));
     }
 
     @org.junit.Test
@@ -124,7 +126,6 @@ public class DatabaseConnectorTest {
     public void blockCard() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        //System.out.println("Try block card: " + connector.blockCard("1111222233334444"));
         connector.blockCard("0000111122223333");
         connector.blockCard("1111222233334444");
 
@@ -134,7 +135,6 @@ public class DatabaseConnectorTest {
     public void unblockCard() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-       // System.out.println("Try unblock card: " + connector.unblockCard("1234567890","1111222233334444"));
         connector.unblockCard("1234567890","0000111122223333");
         connector.unblockCard("1234567890","1111222233334444");
     }
