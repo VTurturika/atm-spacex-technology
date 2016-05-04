@@ -8,7 +8,7 @@ public enum RequestErrorCode {
     WRONG_CARD_ID, WRONG_PIN, INSUFFICIENT_FUNDS, WRONG_CASHSIZE,
     WRONG_NEW_PIN, WRONG_SERVICE_KEY, WRONG_ACCOUNT, TO_LONG_FIRST_NAME,
     TO_LONG_MIDDLE_NAME, TO_LONG_LAST_NAME, LOGIN_ERROR, CONNECTION_ERROR,
-    WRONG_AGE, TO_LONG_ADDRESS, FATAL_ERROR;
+    WRONG_AGE, TO_LONG_ADDRESS, FATAL_ERROR, CARD_BLOCKED, NOT_ENOUGH_MONEY_IN_VAULT;
 
     @Override
     public String toString() {
@@ -42,6 +42,10 @@ public enum RequestErrorCode {
                 return "WRONG_AGE";
             case 13:
                 return "TO_LONG_ADDRESS";
+            case 15:
+                return "CARD_BLOCKED";
+            case 16:
+                return "NOT_ENOUGH_MONEY_IN_VAULT";
             default:
                 return "FATAL_ERROR";
         }
