@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>spacex.technology</groupId>
+    <artifactId>atm</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
 
