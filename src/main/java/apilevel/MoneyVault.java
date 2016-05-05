@@ -67,7 +67,7 @@ public class MoneyVault {
      * @return {@code true} if vault has that money
      */
     public boolean hasMoney(Double cash) {
-        if(getCashValue() > cash) {
+        if(getCashValue() >= cash) {
             return true;
         }
         return false;
