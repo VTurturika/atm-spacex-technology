@@ -1,21 +1,19 @@
 package userlevel;
-//package apilevel;
 
-import apilevel.AtmClientSingleton;
-import apilevel.CreditCard;
-import datalevel.DatabaseConnector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
 /**
  * <what class do>
@@ -34,13 +32,27 @@ public class AppController implements Initializable {
     }
 
     @FXML
-    private void loginUser(ActionEvent e) {
-        
+    private void loginUser(ActionEvent event) {
+
+        loadScene("Client", event);
     }
 
     @FXML
-    private void swView(ActionEvent e) {
+    private void swView(ActionEvent event) {
 
-        System.out.println("sw");
+        loadScene("ServiceWorker", event);
+    }
+
+    private void loadScene(String sceneName, ActionEvent event) {
+
+        Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        try {
+            Parent root =  FXMLLoader.load(getClass().getResource("/" + sceneName +".fxml"));
+            Scene scene= new Scene(root);
+            stage.setScene(scene);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
