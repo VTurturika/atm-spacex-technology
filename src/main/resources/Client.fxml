@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userlevel.ClientController">
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="showBalanceButton" layoutX="103.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="showBalance" />
-      <Button fx:id="withdrawCashButton" layoutX="103.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="withdrawCash" />
-      <Button fx:id="changePinButton" layoutX="104.0" layoutY="221.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="changePin" />
-      <TextField fx:id="newPinField" layoutX="248.0" layoutY="221.0" promptText="Enter new PIN" />
-      <Button fx:id="addCashButton" layoutX="103.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="addCash" />
-      <TextField fx:id="cashWithDrawField" layoutX="248.0" layoutY="161.0" promptText="Cash to withdraw" />
-      <TextField fx:id="cashAddField" layoutX="248.0" layoutY="130.0" promptText="Cash to add" />
-      <TextField fx:id="showBalanceField" editable="false" layoutX="248.0" layoutY="72.0" promptText="Your balance" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Change Pin" />
+            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Show Balance" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Withdraw Cash" />
+            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Add Cash" />
+         </children>
+      </VBox>
    </children>
-</Pane>
+</HBox>
