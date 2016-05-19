@@ -11,6 +11,8 @@ import datalevel.DatabaseConnector;
 import datalevel.RequestException;
 import org.junit.Test;
 
+import java.io.File;
+
 /**
  * Tests class {@code ServiceWorker}
  *
@@ -36,5 +38,27 @@ public class ServiceWorkerTest {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void createFileForCreditCard() {
+
+        try {
+            String path = System.getProperty("user.dir") + File.separator +
+                    "target" + File.separator + "binary-files" + File.separator;
+
+            ServiceWorker sw = new ServiceWorker(FileOperations.readServiceKeyFromFile(new File(path + "1234567890.swkey")));
+
+            AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
+            atmClientSingleton.setConnector(new DatabaseConnector());
+            Person p = new Person();
+            BankAccount b = sw.createNewAccount(p, atmClientSingleton.getConnector());
+            sw.addNewCreditCard(b, atmClientSingleton.getConnector());
+
+            sw.createFileForCreditCard(b.getCreditCards().get(0), null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

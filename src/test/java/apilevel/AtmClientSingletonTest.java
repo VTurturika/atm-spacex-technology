@@ -12,6 +12,8 @@ import datalevel.RequestException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+
 /**
  * Tests class {@code AtmClientSingleton}
  *
@@ -76,13 +78,33 @@ public class AtmClientSingletonTest {
     }
 
     @Test
+    public void setCurrentCardFromFile() {
+        try {
+            AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
+            String path = System.getProperty("user.dir") + File.separator +
+                          "target" + File.separator + "binary-files" + File.separator;
+
+            atmClientSingleton.setCurrentCardFromFile(new File(path + "0000111122223333.sxcard"));
+            atmClientSingleton.setConnector(new DatabaseConnector());
+
+            double balance = atmClientSingleton.showBalance();
+            Assert.assertEquals(balance + 10.0, atmClientSingleton.addCash(10.0), DELTA);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void fakeController() {
         // how this could be not taxi?
-        AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
-        atmClientSingleton.setConnector(new DatabaseConnector());
-        atmClientSingleton.setCurrentCard(new CreditCard());
 
         try {
+            AtmClientSingleton atmClientSingleton = AtmClientSingleton.getInstance();
+            atmClientSingleton.setConnector(new DatabaseConnector());
+            atmClientSingleton.setCurrentCard(new CreditCard());
+
             double expectedBalance = atmClientSingleton.showBalance();
             double actualBalance = 0.0;
             atmClientSingleton.addCash(10.0);
