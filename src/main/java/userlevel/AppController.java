@@ -42,6 +42,7 @@ public class AppController implements Initializable {
         try {
             Parent root =  FXMLLoader.load(getClass().getResource("/" + sceneName +".fxml"));
             Scene scene= new Scene(root);
+            scene.getStylesheets().add("test.css");
             stage.setScene(scene);
         }
         catch (Exception e) {
