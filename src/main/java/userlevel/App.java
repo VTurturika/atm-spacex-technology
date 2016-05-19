@@ -29,27 +29,10 @@ public class App extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
         Scene mainScene = new Scene(root);
+        mainScene.getStylesheets().add("test.css");
         primaryStage.setTitle("ATM");
         primaryStage.setScene(mainScene);
         primaryStage.show();
 
     }
-
-    public static AtmClientSingleton client = AtmClientSingleton.getInstance();
-    public static AtmClientSingleton getClient() {
-        return client;
-    }
-
-    public static void setWorkerKey(String key) {
-        WORKER_KEY = key;
-    }
-
-    public static String getWorkerKey() {
-        return WORKER_KEY;
-    }
-
-    public static Stage getPrimaryStage() {
-        return PRIMARY_STAGE;
-    }
-
 }

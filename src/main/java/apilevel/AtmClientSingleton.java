@@ -205,6 +205,5 @@ public class AtmClientSingleton {
             throw new RequestException(RequestErrorCode.WRONG_PIN);
         }
         throw e;
-
     }
 }

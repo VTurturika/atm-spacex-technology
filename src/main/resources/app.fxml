@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userlevel.AppController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userlevel.AppController">
    <children>
-      <TextField fx:id="cardNumber" layoutX="226.0" layoutY="150.0" promptText="card number" />
-      <TextField fx:id="pin" layoutX="226.0" layoutY="188.0" promptText="pin" />
-      <Button fx:id="login" layoutX="226.0" layoutY="226.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="login" />
-      <TextField fx:id="workerKey" layoutX="388.0" layoutY="188.0" promptText="Worker key" />
+      <Button layoutX="236.0" layoutY="319.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="128.0" text="Login" />
+      <Button layoutX="436.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Service" />
    </children>
 </Pane>

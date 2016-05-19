@@ -24,64 +24,8 @@ import java.util.ResourceBundle;
  */
 public class AppController implements Initializable {
 
-    // App
-    @FXML Button login;
-    @FXML TextField pin;
-    @FXML TextField cardNumber;
-    @FXML TextField workerKey;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        AtmClientSingleton client = App.getClient();
-
-        //App
-        login.setOnAction(e -> {
-            CreditCard currentCard;
-            client.setConnector(new DatabaseConnector());
-
-            //switch scene to client scene
-            if ( (cardNumber.getText().length() != 0) && (pin.getText().length() != 0) ) {
-                currentCard = new CreditCard(cardNumber.getText(), pin.getText());
-                client.setCurrentCard(currentCard);
-                try {
-                    Parent clientSceneParent = FXMLLoader.load(getClass().getResource("/Client.fxml"));
-                    Scene clientScene = new Scene(clientSceneParent);
-                    App.getPrimaryStage().setTitle("Client");
-                    App.getPrimaryStage().setScene(clientScene);
-                    App.getPrimaryStage().show();
-
-                    System.out.println("Logined as CLIENT");
-
-                } catch (IOException error) {
-
-                }
-            } else {
-                System.out.println("Wrong user data");
-            }
-
-            //switch scene to worker scene
-            if (workerKey.getText().length() != 0)  {
-                System.out.println("qwe");
-                try {
-                    App.setWorkerKey(workerKey.getText());
-
-                    /*!*/ Parent workerSceneParent = FXMLLoader.load(getClass().getResource("/ServiceWorker.fxml"));
-
-                    Scene workerScene = new Scene(workerSceneParent);
-                    App.getPrimaryStage().setTitle("Worker");
-                    App.getPrimaryStage().setScene(workerScene);
-                    App.getPrimaryStage().show();
-                    System.out.println("Logined as WORKER");
-                } catch (IOException error) {
-                    error.printStackTrace();
-                }
-            } else {
-                System.out.println("Wrong worker data");
-            }
-
-
-        });
 
     }
 }
