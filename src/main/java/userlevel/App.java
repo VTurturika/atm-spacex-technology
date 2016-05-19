@@ -1,6 +1,7 @@
 package userlevel;
 
 import apilevel.AtmClientSingleton;
+import apilevel.ServiceWorker;
 import datalevel.RequestException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class App extends Application {
 
     public static Stage PRIMARY_STAGE;
+    public static String WORKER_KEY;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,6 +38,14 @@ public class App extends Application {
     public static AtmClientSingleton client = AtmClientSingleton.getInstance();
     public static AtmClientSingleton getClient() {
         return client;
+    }
+
+    public static void setWorkerKey(String key) {
+        WORKER_KEY = key;
+    }
+
+    public static String getWorkerKey() {
+        return WORKER_KEY;
     }
 
     public static Stage getPrimaryStage() {

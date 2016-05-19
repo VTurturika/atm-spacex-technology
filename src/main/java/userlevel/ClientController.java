@@ -45,7 +45,6 @@ public class ClientController implements Initializable {
             }
         });
 
-
         withdrawCashButton.setOnAction(e -> {
             try {
                 Double needToWithDraw = Double.parseDouble(cashWithDrawField.getText());
