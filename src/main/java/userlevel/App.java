@@ -27,12 +27,12 @@ public class App extends Application {
 
         PRIMARY_STAGE = primaryStage;
 
-        Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/client.fxml"));
         Scene mainScene = new Scene(root);
         mainScene.getStylesheets().add("test.css");
+        primaryStage.setResizable(false);
         primaryStage.setTitle("ATM");
         primaryStage.setScene(mainScene);
         primaryStage.show();
-
     }
 }
