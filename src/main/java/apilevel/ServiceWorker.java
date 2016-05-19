@@ -8,8 +8,11 @@ package apilevel;
  */
 
 import datalevel.DatabaseConnector;
+import datalevel.RequestErrorCode;
 import datalevel.RequestException;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,12 +65,12 @@ public class ServiceWorker {
      */
     public void addNewCreditCard(BankAccount b, DatabaseConnector connector) throws RequestException {
         try {
-            b.addCard(new CreditCard(connector.addCard(this.serviceKey, b.getAccountId())));
+            CreditCard creditCard = new CreditCard(connector.addCard(this.serviceKey, b.getAccountId()));
+            b.addCard(creditCard);
 
         } catch(RequestException e) {
             throw e;
         }
-
     }
 
     //    /**
@@ -139,7 +142,14 @@ public class ServiceWorker {
         }
     }
 
-    public void createFileForCreditCard(CreditCard c) {
-        // TODO: CREATE FILE
+    public void createFileForCreditCard(CreditCard c, File dest) throws RequestException {
+
+        try {
+           if( FileOperations.createFileForCreditCard(c,dest) ) return;
+           else throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        }
+        catch (Exception e) {
+            throw new RequestException(RequestErrorCode.FATAL_ERROR);
+        }
     }
 }

@@ -11,6 +11,8 @@ import datalevel.DatabaseConnector;
 import datalevel.RequestErrorCode;
 import datalevel.RequestException;
 
+import java.io.File;
+
 
 /**
  * API for usual customers of ATM
@@ -60,6 +62,22 @@ public class AtmClientSingleton {
      */
     public void setCurrentCard(CreditCard currentCard) {
         this.currentCard = currentCard;
+    }
+
+    /**
+     * Sets currentCard from specified binary file
+     *
+     * @param card binary file
+     */
+    public void setCurrentCardFromFile(File card) throws RequestException {
+
+        try {
+            this.currentCard = FileOperations.readCreditCardFromFile(card);
+        }
+        catch (RequestException e) {
+            this.currentCard = null;
+            throw e;
+        }
     }
 
     /**
@@ -137,8 +155,13 @@ public class AtmClientSingleton {
      *
      * @param connector {@code DatabaseConnector} instance
      */
-    public void setConnector(DatabaseConnector connector) {
-        if(connector.testConnection()) this.connector = connector;
+    public void setConnector(DatabaseConnector connector) throws RequestException {
+        if(connector.testConnection()) {
+            this.connector = connector;
+        }
+        else {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
     }
 
     /**
