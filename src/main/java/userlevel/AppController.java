@@ -13,14 +13,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Node;
 
-/**
- * <what class do>
- *
- * @author Kyrylo Havrylenko
- * @see
- */
 public class AppController implements Initializable {
 
     @FXML Button login;
