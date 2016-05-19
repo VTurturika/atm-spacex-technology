@@ -17,12 +17,19 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
-
         Scene mainScene = new Scene(root);
         primaryStage.setTitle("ATM");
         primaryStage.setScene(mainScene);
-        primaryStage.show();
 
+
+       // Parent client = FXMLLoader.load(getClass().getResource("/Client.fxml"));
+       // Scene clientScene = new Scene(client);
+       // primaryStage.setScene(clientScene);
+
+      //  Parent serviceWorker = FXMLLoader.load(getClass().getResource("/ServiceWorker.fxml"));
+       // Scene serviceWorkerScene = new Scene(serviceWorker);
+        //primaryStage.setScene(serviseWorkerScene);
+        primaryStage.show();
     }
 
 

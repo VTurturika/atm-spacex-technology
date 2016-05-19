@@ -7,6 +7,7 @@ import apilevel.Person;
 import apilevel.BankAccount;
 import apilevel.CreditCard;
 import datalevel.DatabaseConnector;
+import datalevel.RequestException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,47 +23,56 @@ import java.util.ResourceBundle;
  * @see
  */
 public class AppController implements Initializable {
-    @FXML
+
     // Client
-    Button showBalance;
-    Button withdrawCash;
-    Button changePin;
-    TextField newPinField;
-    Button addCash;
-    TextField cashAddField;
+    @FXML Button showBalance;
+    @FXML Button withdrawCash;
+    @FXML Button changePin;
+    @FXML TextField newPinField;
+    @FXML Button addCash;
+    @FXML TextField cashAddField;
     // ServiceWorker
-    Button addCashSW;
-    TextField cashAddFieldSW;
-    Button createNewBankAccount;
-    TextField bankAccountId;
-    TextField lastName;
-    TextField firstName;
-    TextField middleName;
-    TextField adress;
-    TextField age;
-    Button addNewCreditCard;
-    Button unlockCard;
-    TextField cardId;
+    @FXML Button addCashSW;
+    @FXML TextField cashAddFieldSW;
+    @FXML Button createNewBankAccount;
+    @FXML TextField bankAccountId;
+    @FXML TextField lastName;
+    @FXML TextField firstName;
+    @FXML TextField middleName;
+    @FXML TextField adress;
+    @FXML TextField age;
+    @FXML Button addNewCreditCard;
+    @FXML Button unlockCard;
+    @FXML TextField cardId;
+    @FXML TextField pin;
+    @FXML TextField cardNumber;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        AtmClientSingleton client = AtmClientSingleton.getInstance();
+        client.setConnector(new DatabaseConnector());
+        CreditCard currentCard = new CreditCard(cardNumber.getText(), pin.getText());
+        client.setCurrentCard(currentCard);
         // Client
         showBalance.setOnAction(e -> {
-            currentCard.showBalance();
+            try {
+                client.showBalance();
+            }catch (RequestException error){
+                error.printStackTrace();
+            }
         });
 
-        withdrawCash.setOnAction(e -> {
-            currentCard.withdrawCash();
+        /*withdrawCash.setOnAction(e -> {
+            client.withdrawCash();
         });
 
         changePin.setOnAction(e -> {
-            currentCard.changePin(Integer.parseInt(newPinField.getText()));
+            client.changePin(Integer.parseInt(newPinField.getText()));
         });
 
         addCash.setOnAction(e -> {
-            currentCard.addCash(Double.parseDouble(cashAddField.getText()));
+            client.addCash(Double.parseDouble(cashAddField.getText()));
         });
 
         // ServiceWorker
@@ -86,7 +96,7 @@ public class AppController implements Initializable {
         unlockCard.setOnAction(e -> {
             CreditCard currentCard = new CreditCard(cardId.getText());
             currentWorker.unlockCard(currentCard, connector);
-        });
+        });*/
 
     }
 }
