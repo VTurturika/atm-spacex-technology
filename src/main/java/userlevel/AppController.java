@@ -2,17 +2,17 @@ package userlevel;
 //package apilevel;
 
 import apilevel.AtmClientSingleton;
-import apilevel.ServiceWorker;
-import apilevel.Person;
-import apilevel.BankAccount;
 import apilevel.CreditCard;
 import datalevel.DatabaseConnector;
-import datalevel.RequestException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,79 +24,67 @@ import java.util.ResourceBundle;
  */
 public class AppController implements Initializable {
 
-    // Client
-    @FXML Button showBalance;
-    @FXML Button withdrawCash;
-    @FXML Button changePin;
-    @FXML TextField newPinField;
-    @FXML Button addCash;
-    @FXML TextField cashAddField;
-    // ServiceWorker
-    @FXML Button addCashSW;
-    @FXML TextField cashAddFieldSW;
-    @FXML Button createNewBankAccount;
-    @FXML TextField bankAccountId;
-    @FXML TextField lastName;
-    @FXML TextField firstName;
-    @FXML TextField middleName;
-    @FXML TextField adress;
-    @FXML TextField age;
-    @FXML Button addNewCreditCard;
-    @FXML Button unlockCard;
-    @FXML TextField cardId;
+    // App
+    @FXML Button login;
     @FXML TextField pin;
     @FXML TextField cardNumber;
+    @FXML TextField workerKey;
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        AtmClientSingleton client = AtmClientSingleton.getInstance();
-        client.setConnector(new DatabaseConnector());
-        CreditCard currentCard = new CreditCard(cardNumber.getText(), pin.getText());
-        client.setCurrentCard(currentCard);
-        // Client
-        showBalance.setOnAction(e -> {
-            try {
-                client.showBalance();
-            }catch (RequestException error){
-                error.printStackTrace();
+
+        AtmClientSingleton client = App.getClient();
+
+        //App
+        login.setOnAction(e -> {
+            CreditCard currentCard;
+            client.setConnector(new DatabaseConnector());
+
+            //switch scene to client scene
+            if ( (cardNumber.getText().length() != 0) && (pin.getText().length() != 0) ) {
+                currentCard = new CreditCard(cardNumber.getText(), pin.getText());
+
+                client.setCurrentCard(currentCard);
+
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/Client.fxml"));
+                    Scene clientScene = new Scene(root);
+                    App.getPrimaryStage().setTitle("Client");
+                    App.getPrimaryStage().setScene(clientScene);
+                    App.getPrimaryStage().show();
+
+                    System.out.println("Logined as CLIENT");
+
+                } catch (IOException error) {
+
+                }
+
+            } else {
+                System.out.println("Wrong user data");
             }
-        });
 
-        /*withdrawCash.setOnAction(e -> {
-            client.withdrawCash();
-        });
+            //switch scene to worker scene
+            if (workerKey.getText().length() != 0)  {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/ServiceWorker.fxml"));
+                    Scene workerScene = new Scene(root);
+                    App.getPrimaryStage().setTitle("Worker");
+                    App.getPrimaryStage().setScene(workerScene);
+                    App.getPrimaryStage().show();
 
-        changePin.setOnAction(e -> {
-            client.changePin(Integer.parseInt(newPinField.getText()));
-        });
+                    System.out.println("Logined as WORKER");
+                } catch (IOException error) {
 
-        addCash.setOnAction(e -> {
-            client.addCash(Double.parseDouble(cashAddField.getText()));
-        });
+                }
 
-        // ServiceWorker
-        addCash.setOnAction(e -> {
-            currentWorker.addCash(Double.parseDouble(cashAddFieldSW.getText()));
-        });
+            } else {
+                System.out.println("Wrong worker data");
+            }
 
-        createNewBankAccount.setOnAction(e -> {
-            Person newPerson = new Person(lastName.getText(), firstName.getText(), middleName.getText(), adress.getText(), Integer.parseInt(age.getText()));
-            BankAccount newAccount = new BankAccount(Integer.parseInt(bankAccountId.getText()), newPerson);
-            currentWorker.createNewAccount(newPerson, connector);
-        });
-
-        addNewCreditCard.setOnAction(e -> {
-            Person currentPerson = new Person(lastName.getText(), firstName.getText(), middleName.getText(), adress.getText(), Integer.parseInt(age.getText()));
-            BankAccount currentAccount = new BankAccount(Integer.parseInt(bankAccountId.getText()), currentPerson);
-            addNewCreditCard(currentAccount, connector);
 
         });
-
-        unlockCard.setOnAction(e -> {
-            CreditCard currentCard = new CreditCard(cardId.getText());
-            currentWorker.unlockCard(currentCard, connector);
-        });*/
 
     }
 }

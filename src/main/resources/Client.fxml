@@ -4,13 +4,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userlevel.AppController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userlevel.ClientController">
    <children>
-      <Button fx:id="showBalance" layoutX="142.0" layoutY="119.0" mnemonicParsing="false" text="showBalance" />
-      <Button fx:id="withdrawCash" layoutX="142.0" layoutY="157.0" mnemonicParsing="false" text="withdrawCash" />
-      <Button fx:id="changePin" layoutX="332.0" layoutY="82.0" mnemonicParsing="false" text="changePin" />
-      <TextField fx:id="newPinField" layoutX="412.0" layoutY="82.0" promptText="Enter new PIN" />
-      <Button fx:id="addCash" layoutX="332.0" layoutY="119.0" mnemonicParsing="false" text="addCash" />
-      <TextField fx:id="cashAddField" layoutX="412.0" layoutY="119.0" promptText="Cash to add" />
+      <Button fx:id="showBalanceButton" layoutX="103.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="showBalance" />
+      <Button fx:id="withdrawCashButton" layoutX="103.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="withdrawCash" />
+      <Button fx:id="changePinButton" layoutX="104.0" layoutY="221.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="changePin" />
+      <TextField fx:id="newPinField" layoutX="248.0" layoutY="221.0" promptText="Enter new PIN" />
+      <Button fx:id="addCashButton" layoutX="103.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="addCash" />
+      <TextField fx:id="cashWithDrawField" layoutX="248.0" layoutY="161.0" promptText="Cash to withdraw" />
+      <TextField fx:id="cashAddField" layoutX="248.0" layoutY="130.0" promptText="Cash to add" />
+      <TextField fx:id="showBalanceField" editable="false" layoutX="248.0" layoutY="72.0" promptText="Your balance" />
    </children>
 </Pane>
