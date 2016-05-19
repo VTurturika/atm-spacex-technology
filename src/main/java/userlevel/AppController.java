@@ -4,6 +4,7 @@ package userlevel;
 import apilevel.AtmClientSingleton;
 import apilevel.CreditCard;
 import datalevel.DatabaseConnector;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,8 +25,22 @@ import java.util.ResourceBundle;
  */
 public class AppController implements Initializable {
 
+    @FXML Button login;
+    @FXML Button service;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    @FXML
+    private void loginUser(ActionEvent e) {
+        
+    }
+
+    @FXML
+    private void swView(ActionEvent e) {
+
+        System.out.println("sw");
     }
 }
