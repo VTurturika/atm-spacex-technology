@@ -27,7 +27,7 @@ public class App extends Application {
 
         PRIMARY_STAGE = primaryStage;
 
-        Parent root = FXMLLoader.load(getClass().getResource("/client.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ServiceWorker.fxml"));
         Scene mainScene = new Scene(root);
         mainScene.getStylesheets().add("test.css");
         primaryStage.setResizable(false);
