@@ -29,26 +29,30 @@ import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
 
-    @FXML Button login;
-    @FXML Button service;
-    @FXML Button insert;
-    @FXML TextField pin;
-    @FXML HBox container;
+    @FXML
+    Button login;
+    @FXML
+    Button service;
+    @FXML
+    Button insert;
+    @FXML
+    TextField pin;
+    @FXML
+    HBox container;
 
     private AtmClientSingleton atm;
 
-    private Service<Void>  loginTask = new Service<Void>() {
+    private Service<Void> loginTask = new Service<Void>() {
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
 
-                    try{
+                    try {
                         atm.setConnector(new DatabaseConnector());
                         insert.setDisable(false);
-                    }
-                    catch (RequestException e) {
+                    } catch (RequestException e) {
                         insert.setDisable(true);
                         insert.setText(e.getMessage());
                     }
@@ -95,14 +99,13 @@ public class AppController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Spacex-Technology card (*.sxcard)", "*.sxcard"));
         File file = fileChooser.showOpenDialog(stage);
 
-        if(file != null) {
+        if (file != null) {
 
             try {
                 atm.setCurrentCardFromFile(file);
                 container.getChildren().remove(insert);
                 container.getChildren().addAll(pin, login);
-            }
-            catch (RequestException e) {
+            } catch (RequestException e) {
                 e.printStackTrace();
             }
         }
@@ -114,8 +117,7 @@ public class AppController implements Initializable {
             atm.getCurrentCard().setPinCode(pin.getText());
             atm.showBalance();
             loadScene("Client", event);
-        }
-        catch (RequestException e) {
+        } catch (RequestException e) {
             e.printStackTrace();
         }
     }
@@ -128,29 +130,31 @@ public class AppController implements Initializable {
 
     private void loadScene(String sceneName, ActionEvent event) {
 
-        Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        Stage stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/" + sceneName +".fxml"));
-            Parent root =  loader.load();
-            Scene scene= new Scene(root);
+            loader.setLocation(getClass().getResource("/" + sceneName + ".fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
 
-            if(sceneName.equals("Client")) {
-                ClientController clientController = ((ClientController)loader.getController());
+            if (sceneName.equals("Client")) {
+                ClientController clientController = ((ClientController) loader.getController());
                 clientController.setAtm(atm);
                 scene.getStylesheets().add("client.css");
+            } else {
+                if (sceneName.equals("ServiceWorker")) {
+                    WorkerController workerController = ((WorkerController) loader.getController());
+                    workerController.setAtm(atm);
+                    scene.getStylesheets().add("service.css");
+                }
+                else {
+                    WorkerController workerController = ((WorkerController) loader.getController());
+                    workerController.setAtm(atm);
+                    scene.getStylesheets().add("test.css");
+                }
             }
-            else {
-                WorkerController workerController = ((WorkerController)loader.getController());
-                workerController.setAtm(atm);
-                scene.getStylesheets().add("test.css");
-            }
-
-
-
             stage.setScene(scene);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
