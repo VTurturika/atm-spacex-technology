@@ -38,6 +38,21 @@ public class MoneyVault {
     }
 
     /**
+     * Constructor via Map
+     * @param cash Map with keySet from {@code MoneyVault}
+     */
+    public MoneyVault(Map<Integer, Integer> cash) {
+        this();
+        if(vault.keySet().equals(cash.keySet())) {
+            vault = cash;
+        }
+    }
+
+    public Map<Integer, Integer> getVault() {
+        return vault;
+    }
+
+    /**
      * Withdraws money from Vault
      *
      * @param cash amount of money you want to withdraw
@@ -54,6 +69,25 @@ public class MoneyVault {
                     vault.put(notes[i], vault.get(notes[i]) - 1);
                     if(cash == 0) return vault;
                 }
+            }
+        }
+        return vault;
+    }
+
+    /**
+     * Withdraws money from Vault
+     *
+     * @param cash Map (amount) of money you want to withdraw
+     *
+     * @return {@code MoneyVault} after withdraw
+     * @throws RequestException
+     */
+    public Map<Integer, Integer> withdrawCash(Map<Integer, Integer> cash) throws RequestException {
+
+        if(cash.keySet().equals(vault.keySet())) {
+            if(!hasMoney(new MoneyVault(cash).getCashValue())) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
+            for(Integer key : cash.keySet()) {
+                vault.put(key, vault.get(key) - cash.get(key));
             }
         }
         return vault;
@@ -95,7 +129,7 @@ public class MoneyVault {
      */
     public Map<Integer, Integer> addCashToVault(Double cash) {
         while(cash != 0) {
-            for(int i = notes.length - 1; i > 0; i--) {
+            for(int i = notes.length - 1; i >= 0; i--) {
                 if(cash % notes[i] == 0) {
                     cash -= notes[i];
                     vault.put(notes[i], vault.get(notes[i]) + 1);
@@ -103,6 +137,18 @@ public class MoneyVault {
                 }
             }
         }
+        return vault;
+    }
+
+    /**
+     * Adds money to {@code MoneyVault} instance
+     *
+     * @param cash Map (money) you wan't to put into vault
+     * @return {@code MoneyVault} instance after adding money
+     */
+    public Map<Integer, Integer> addCashToVault(Map<Integer, Integer> cash) {
+        MoneyVault mv = new MoneyVault(cash);
+        addCashToVault(mv.getCashValue());
         return vault;
     }
 }
