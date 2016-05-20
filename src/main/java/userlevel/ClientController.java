@@ -61,7 +61,12 @@ public class ClientController implements Initializable {
     private void showBalance(ActionEvent event) {
 
         try {
+            System.out.println("showBalance started");
+
             double balance = atm.showBalance();
+
+            System.out.println("db query completed");
+
             container.getChildren().clear();
             container.setVisible(true);
 
@@ -80,6 +85,8 @@ public class ClientController implements Initializable {
     @FXML
     private void addCash(ActionEvent event) {
 
+        System.out.println("addCash started");
+
         container.getChildren().clear();
         container.setVisible(true);
 
@@ -96,9 +103,11 @@ public class ClientController implements Initializable {
         button.setOnAction(event1 -> {
 
             try {
+                System.out.println("submit callback started");
                 button.setDisable(true);
                 label.setText("Wait");
                 double newBalance = atm.addCash(Double.valueOf(howMuch.getText()));
+                System.out.println("db query completed");
                 label.setText("Current balance:");
                 howMuch.setText(String.valueOf(newBalance));
                // vBox.getChildren().remove(button);
