@@ -1,0 +1,9 @@
+#main{
+-fx-background-image: url("230701.jpg");
+-fx-background-size: 600px;
+-fx-background-color: white;
+-fx-background-repeat: no-repeat;
+}
+Button:hover{
+-fx-cursor:hand;
+}
