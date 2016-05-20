@@ -74,9 +74,16 @@ public class MoneyVault {
         return vault;
     }
 
+    /**
+     * Withdraws money from Vault
+     *
+     * @param cash Map (amount) of money you want to withdraw
+     *
+     * @return {@code MoneyVault} after withdraw
+     * @throws RequestException
+     */
     public Map<Integer, Integer> withdrawCash(Map<Integer, Integer> cash) throws RequestException {
-//        if(this.)
-//        if(!hasMoney(cash)) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
+
         if(cash.keySet().equals(vault.keySet())) {
             if(!hasMoney(new MoneyVault(cash).getCashValue())) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
             for(Integer key : cash.keySet()) {
@@ -130,6 +137,18 @@ public class MoneyVault {
                 }
             }
         }
+        return vault;
+    }
+
+    /**
+     * Adds money to {@code MoneyVault} instance
+     *
+     * @param cash Map (money) you wan't to put into vault
+     * @return {@code MoneyVault} instance after adding money
+     */
+    public Map<Integer, Integer> addCashToVault(Map<Integer, Integer> cash) {
+        MoneyVault mv = new MoneyVault(cash);
+        addCashToVault(mv.getCashValue());
         return vault;
     }
 }
