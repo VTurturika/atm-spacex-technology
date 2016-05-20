@@ -35,7 +35,15 @@ public class CreditCard {
     public CreditCard(String cardId) {
         this(cardId, 0.00, false, "0000");
     }
-
+    /**
+     * Creates new {@code CreditCard} with specified {@code cardId}
+     *
+     * @param cardId id (number) of card to create
+     * @param pinCode  pincode of card
+     */
+    public CreditCard(String cardId, String pinCode) {
+        this(cardId, 0.00, false, pinCode);
+    }
     /**
      * Creates new {@code CreditCard}
      *
