@@ -42,7 +42,7 @@ public class AtmClientSingleton {
         return vault;
     }
 
-    void setVault(MoneyVault vault) {
+    public void setVault(MoneyVault vault) {
         this.vault = vault;
     }
 
