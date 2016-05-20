@@ -15,9 +15,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.text.TabExpander;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +30,10 @@ public class AppController implements Initializable {
 
     @FXML Button login;
     @FXML Button service;
+    @FXML Button insert;
+    @FXML TextField pin;
+
+
     private AtmClientSingleton atm;
 
     private Service<Void>  loginTask = new Service<Void>() {
@@ -38,11 +45,11 @@ public class AppController implements Initializable {
 
                     try{
                         atm.setConnector(new DatabaseConnector());
-                        login.setDisable(false);
+                        insert.setDisable(false);
                     }
                     catch (RequestException e) {
-                        login.setDisable(true);
-                        login.setText(e.getMessage());
+                        insert.setDisable(true);
+                        insert.setText(e.getMessage());
                     }
                     return null;
                 }
@@ -59,12 +66,27 @@ public class AppController implements Initializable {
         moneyVault.addCashToVault(10000.);
         atm.setVault(moneyVault);
 
-        login.setDisable(true);
+        insert.setDisable(true);
+        login.setVisible(false);
+
+
+
+        pin.setVisible(false);
         loginTask.start();
+
+        TextFormatter<String> textFormatter = new TextFormatter<>(change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]{0,4}")) {
+                return change;
+            }
+            return null;
+        });
+
+        pin.setTextFormatter(textFormatter);
     }
 
     @FXML
-    private void loginUser(ActionEvent event) {
+    private void insertCard(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
         Stage stage = (Stage) login.getScene().getWindow();
@@ -77,16 +99,25 @@ public class AppController implements Initializable {
 
             try {
                 atm.setCurrentCardFromFile(file);
-                loadScene("Client",event);
+                login.setVisible(true);
+                pin.setVisible(true);
             }
             catch (RequestException e) {
-
+                e.printStackTrace();
             }
-
         }
+    }
 
-
-        //loadScene("Client", event);
+    @FXML
+    private void loginUser(ActionEvent event) {
+        try {
+            atm.getCurrentCard().setPinCode(pin.getText());
+            atm.showBalance();
+            loadScene("Client", event);
+        }
+        catch (RequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

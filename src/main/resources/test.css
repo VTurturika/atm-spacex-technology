@@ -8,7 +8,7 @@ Pane{
 -fx-background-repeat: no-repeat;
 }
 
-#login {
+#login,#insert {
     -fx-background-color:
         #090a0c,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
@@ -24,7 +24,7 @@ Pane{
 
     -fx-padding: 10 20 10 20;
 }
-#login:hover, #service:hover {
+#login:hover, #service:hover, #insert:hover {
     -fx-opacity:0.5;
 }
 #service{
