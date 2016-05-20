@@ -29,16 +29,11 @@ import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
 
-    @FXML
-    Button login;
-    @FXML
-    Button service;
-    @FXML
-    Button insert;
-    @FXML
-    TextField pin;
-    @FXML
-    HBox container;
+    @FXML Button login;
+    @FXML Button service;
+    @FXML Button insert;
+    @FXML TextField pin;
+    @FXML HBox container;
 
     private AtmClientSingleton atm;
 

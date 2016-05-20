@@ -14,16 +14,16 @@
          <children>
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add user" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add Card" />
+            <Button onAction="#addUserAction" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add User" />
+            <Button onAction="#addCardAction" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add Card" />
          </children>
          </VBox>
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Unblock Card" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add Cash" />
-            <Button onAction="#logout" fx:id="logout" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Logout" />
+            <Button onAction="#unblockCardAction" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Unblock Card" />
+            <Button onAction="#addCashAction" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Add Cash" />
+            <Button onAction="#logoutAction" fx:id="logout" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Logout" />
          </children>
          </VBox>
         </children>

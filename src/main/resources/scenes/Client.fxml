@@ -16,11 +16,11 @@
             <children>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
                     <children>
-                        <Button fx:id="changePin" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
+                        <Button fx:id="changePin" onAction="#changePinAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
                                 text="Change Pin"/>
-                        <Button fx:id="showBalance" onAction="#showBalance" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
+                        <Button fx:id="showBalance" onAction="#showBalanceAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
                                 text="Show Balance"/>
-                        <Button onAction="#logout" fx:id="logout" alignment="CENTER" contentDisplay="CENTER"
+                        <Button fx:id="logout" onAction="#logoutAction" alignment="CENTER" contentDisplay="CENTER"
                                 mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Logout">
                         </Button>
                     </children>
@@ -32,11 +32,10 @@
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
                     <children>
-                        <Button fx:id="withdrawCash" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
+                        <Button fx:id="withdrawCash" onAction="#withdrawCashAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
                                 text="Withdraw Cash"/>
-                        <Button fx:id="addCash" onAction="#addCash" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
+                        <Button fx:id="addCash" onAction="#addCashAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
                                 text="Add Cash"/>
-
                     </children>
                 </VBox>
             </children>

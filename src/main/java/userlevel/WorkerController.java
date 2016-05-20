@@ -28,7 +28,7 @@ public class WorkerController implements Initializable {
     }
 
     @FXML
-    private void logout(ActionEvent event) {
+    private void logoutAction(ActionEvent event) {
 
         Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
         try {
@@ -40,5 +40,25 @@ public class WorkerController implements Initializable {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void addUserAction(ActionEvent event) {
+        System.out.println("addUserAction");
+    }
+
+    @FXML
+    private void addCardAction(ActionEvent event) {
+        System.out.println("addCardAction");
+    }
+
+    @FXML
+    private void unblockCardAction(ActionEvent event) {
+        System.out.println("unblockCardAction");
+    }
+
+    @FXML
+    private void addCashAction(ActionEvent event) {
+        System.out.println("addCashAction");
     }
 }
