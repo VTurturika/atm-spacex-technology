@@ -2,7 +2,7 @@ Button:hover{
 -fx-cursor:hand;
 }
 Pane{
--fx-background-image: url("spacex-technology.jpg");
+-fx-background-image: url("../img/spacex-technology.jpg");
 -fx-background-size: 600px;
 -fx-background-color: white;
 -fx-background-repeat: no-repeat;
