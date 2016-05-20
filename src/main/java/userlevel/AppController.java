@@ -123,7 +123,7 @@ public class AppController implements Initializable {
     }
 
     @FXML
-    private void swView(ActionEvent event) {
+    private void serviceWorkerScene(ActionEvent event) {
 
         loadScene("ServiceWorker", event);
     }
@@ -140,16 +140,14 @@ public class AppController implements Initializable {
             if (sceneName.equals("Client")) {
                 ClientController clientController = ((ClientController) loader.getController());
                 clientController.setAtm(atm);
-                scene.getStylesheets().add("client.css");
+                scene.getStylesheets().add("/css/client.css");
             } else {
                 if (sceneName.equals("ServiceWorker")) {
                     WorkerController workerController = ((WorkerController) loader.getController());
                     workerController.setAtm(atm);
-                    scene.getStylesheets().add("service.css");
+                    scene.getStylesheets().add("/css/service.css");
                 }
                 else {
-                    WorkerController workerController = ((WorkerController) loader.getController());
-                    workerController.setAtm(atm);
                     scene.getStylesheets().add("test.css");
                 }
             }

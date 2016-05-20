@@ -49,7 +49,7 @@ public class ClientController implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/app.fxml"));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add("test.css");
+            scene.getStylesheets().add("/css/test.css");
             stage.setScene(scene);
         }
         catch (Exception e) {
@@ -73,8 +73,8 @@ public class ClientController implements Initializable {
             Label result = new Label();
             result.setText("Your balance:\n" + String.valueOf(balance));
             result.setStyle("-fx-font-family: \"Arial\";\n" +
-                    "    -fx-text-alignment: center;\n" +
-                    "    -fx-font-size: 20px;");
+                            "-fx-text-alignment: center;\n" +
+                             "-fx-font-size: 20px;");
             container.getChildren().add(result);
         }
         catch (RequestException e) {
