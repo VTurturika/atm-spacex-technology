@@ -38,6 +38,21 @@ public class MoneyVault {
     }
 
     /**
+     * Constructor via Map
+     * @param cash Map with keySet from {@code MoneyVault}
+     */
+    public MoneyVault(Map<Integer, Integer> cash) {
+        this();
+        if(vault.keySet().equals(cash.keySet())) {
+            vault = cash;
+        }
+    }
+
+    public Map<Integer, Integer> getVault() {
+        return vault;
+    }
+
+    /**
      * Withdraws money from Vault
      *
      * @param cash amount of money you want to withdraw
@@ -54,6 +69,18 @@ public class MoneyVault {
                     vault.put(notes[i], vault.get(notes[i]) - 1);
                     if(cash == 0) return vault;
                 }
+            }
+        }
+        return vault;
+    }
+
+    public Map<Integer, Integer> withdrawCash(Map<Integer, Integer> cash) throws RequestException {
+//        if(this.)
+//        if(!hasMoney(cash)) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
+        if(cash.keySet().equals(vault.keySet())) {
+            if(!hasMoney(new MoneyVault(cash).getCashValue())) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
+            for(Integer key : cash.keySet()) {
+                vault.put(key, vault.get(key) - cash.get(key));
             }
         }
         return vault;
