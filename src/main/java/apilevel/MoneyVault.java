@@ -95,7 +95,7 @@ public class MoneyVault {
      */
     public Map<Integer, Integer> addCashToVault(Double cash) {
         while(cash != 0) {
-            for(int i = notes.length - 1; i > 0; i--) {
+            for(int i = notes.length - 1; i >= 0; i--) {
                 if(cash % notes[i] == 0) {
                     cash -= notes[i];
                     vault.put(notes[i], vault.get(notes[i]) + 1);
