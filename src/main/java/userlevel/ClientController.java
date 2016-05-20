@@ -1,25 +1,45 @@
 package userlevel;
-//package apilevel;
 
 import apilevel.AtmClientSingleton;
-import apilevel.ServiceWorker;
-import apilevel.Person;
-import apilevel.BankAccount;
-import apilevel.CreditCard;
-import datalevel.DatabaseConnector;
-import datalevel.RequestException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
 
+    private AtmClientSingleton atm;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    public void setAtm(AtmClientSingleton atm) {
+        this.atm = atm;
+        System.out.println(atm.getCurrentCard().getCardId());
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+
+        Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add("test.css");
+            stage.setScene(scene);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

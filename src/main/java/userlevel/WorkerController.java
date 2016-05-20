@@ -1,21 +1,22 @@
 package userlevel;
-//package apilevel;
 
-import apilevel.*;
-import datalevel.DatabaseConnector;
-import datalevel.RequestException;
-import javafx.fxml.FXML;
+import apilevel.AtmClientSingleton;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class WorkerController implements Initializable {
+
+    private AtmClientSingleton atm;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void setAtm(AtmClientSingleton atm) {
+        this.atm = atm;
     }
 }
