@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -32,7 +33,7 @@ public class AppController implements Initializable {
     @FXML Button service;
     @FXML Button insert;
     @FXML TextField pin;
-
+    @FXML HBox container;
 
     private AtmClientSingleton atm;
 
@@ -67,11 +68,10 @@ public class AppController implements Initializable {
         atm.setVault(moneyVault);
 
         insert.setDisable(true);
-        login.setVisible(false);
 
+        container.getChildren().remove(pin);
+        container.getChildren().remove(login);
 
-
-        pin.setVisible(false);
         loginTask.start();
 
         TextFormatter<String> textFormatter = new TextFormatter<>(change -> {
@@ -89,7 +89,7 @@ public class AppController implements Initializable {
     private void insertCard(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-        Stage stage = (Stage) login.getScene().getWindow();
+        Stage stage = (Stage) insert.getScene().getWindow();
 
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Spacex-Technology card (*.sxcard)", "*.sxcard"));
@@ -99,8 +99,8 @@ public class AppController implements Initializable {
 
             try {
                 atm.setCurrentCardFromFile(file);
-                login.setVisible(true);
-                pin.setVisible(true);
+                container.getChildren().remove(insert);
+                container.getChildren().addAll(pin, login);
             }
             catch (RequestException e) {
                 e.printStackTrace();
@@ -133,18 +133,21 @@ public class AppController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/" + sceneName +".fxml"));
             Parent root =  loader.load();
+            Scene scene= new Scene(root);
 
             if(sceneName.equals("Client")) {
                 ClientController clientController = ((ClientController)loader.getController());
                 clientController.setAtm(atm);
+                scene.getStylesheets().add("client.css");
             }
             else {
                 WorkerController workerController = ((WorkerController)loader.getController());
                 workerController.setAtm(atm);
+                scene.getStylesheets().add("test.css");
             }
 
-            Scene scene= new Scene(root);
-            scene.getStylesheets().add("test.css");
+
+
             stage.setScene(scene);
         }
         catch (Exception e) {
