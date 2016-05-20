@@ -133,7 +133,7 @@ public class AppController implements Initializable {
         Stage stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/" + sceneName + ".fxml"));
+            loader.setLocation(getClass().getResource("/scenes/" + sceneName + ".fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

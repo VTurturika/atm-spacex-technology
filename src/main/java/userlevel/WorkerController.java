@@ -32,7 +32,7 @@ public class WorkerController implements Initializable {
 
         Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/app.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/app.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add("test.css");
             stage.setScene(scene);
