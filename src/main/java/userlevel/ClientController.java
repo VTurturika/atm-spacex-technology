@@ -1,13 +1,20 @@
 package userlevel;
 
 import apilevel.AtmClientSingleton;
+import datalevel.RequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -17,10 +24,18 @@ public class ClientController implements Initializable {
 
     private AtmClientSingleton atm;
 
+    @FXML Button changePin;
+    @FXML Button showBalance;
+    @FXML Button withdrawCash;
+    @FXML Button addCash;
+    @FXML VBox container;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        container.setVisible(false);
     }
+
 
     public void setAtm(AtmClientSingleton atm) {
         this.atm = atm;
@@ -40,6 +55,63 @@ public class ClientController implements Initializable {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void showBalance(ActionEvent event) {
+
+        try {
+            double balance = atm.showBalance();
+            container.getChildren().clear();
+            container.setVisible(true);
+
+            Label result = new Label();
+            result.setText("Your balance:\n" + String.valueOf(balance));
+            result.setStyle("-fx-font-family: \"Arial\";\n" +
+                    "    -fx-text-alignment: center;\n" +
+                    "    -fx-font-size: 20px;");
+            container.getChildren().add(result);
+        }
+        catch (RequestException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void addCash(ActionEvent event) {
+
+        container.getChildren().clear();
+        container.setVisible(true);
+
+        TextField howMuch = new TextField();
+        Label label = new Label("Add your cash:");
+        Button button = new Button("Submit");
+
+        VBox vBox = new VBox(label, howMuch, button);
+        vBox.setSpacing(5);
+        vBox.setPadding(new Insets(5));
+        vBox.setAlignment(Pos.CENTER);
+        howMuch.setAlignment(Pos.CENTER);
+
+        button.setOnAction(event1 -> {
+
+            try {
+                button.setDisable(true);
+                label.setText("Wait");
+                double newBalance = atm.addCash(Double.valueOf(howMuch.getText()));
+                label.setText("Current balance:");
+                howMuch.setText(String.valueOf(newBalance));
+               // vBox.getChildren().remove(button);
+
+            }
+            catch (RequestException e) {
+                e.printStackTrace();
+            }
+        });
+
+        button.getStyleClass().add("buttonsx");
+
+        container.getChildren().add(vBox);
     }
 
 }
