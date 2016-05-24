@@ -101,7 +101,6 @@ public class ClientController implements Initializable {
     private void addCashAction(ActionEvent event) {
 
         loadWidget("addCash");
-        System.out.println("addCash started");
 
         TextField addCash = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(0);
         Button addCashButton =  (Button) ((Pane)container.getChildren().get(0)).getChildren().get(1);
@@ -109,8 +108,8 @@ public class ClientController implements Initializable {
         addCashButton.setOnAction(event1 -> {
             try {
                 double addValue = Double.valueOf(addCash.getText());
-                double currentBalanse = atm.addCash(addValue);
-                showAlert("Successfully added\nCurrent balance: " + String.valueOf(currentBalanse), "OK", "info");
+                double currentBalance = atm.addCash(addValue);
+                showAlert("Successfully added\nCurrent balance: " + String.valueOf(currentBalance), "OK", "info");
             }
             catch (RequestException e) {
                 showAlert(e.getMessage(), "Error", "error");
@@ -132,7 +131,6 @@ public class ClientController implements Initializable {
             try {
                 atm.changePin(userNewPin.getText());
                 showAlert("Successfully changed PIN code", "OK", "info");
-
             }
             catch (RequestException e) {
                 showAlert(e.getMessage(), "Error", "error");
@@ -140,10 +138,29 @@ public class ClientController implements Initializable {
         });
     }
 
-
     @FXML
     private void withdrawCashAction(ActionEvent event) {
         loadWidget("withdrawCash");
         System.out.println("withdrawCashAction");
+
+        TextField withdrawCash = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(0);
+        Button withdrawCashButton = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(1);
+        Button changeNominal = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(2);
+
+        withdrawCashButton.setOnAction(event1 -> {
+
+            try {
+                double withdraw = Double.valueOf(withdrawCash.getText());
+                double currentBalance = atm.withdrawCash(withdraw);
+                showAlert("Successfully withdraw\nCurrent balance: " + String.valueOf(currentBalance), "OK", "info");
+            }
+            catch (RequestException e) {
+                showAlert(e.getMessage(), "Error", "error");
+            }
+        });
+
+        changeNominal.setOnAction(event1 -> {
+            loadWidget("withdrawCash_pro");
+        });
     }
 }

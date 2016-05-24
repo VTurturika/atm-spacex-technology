@@ -64,7 +64,7 @@ public class AppController implements Initializable {
 
         atm = AtmClientSingleton.getInstance();
         MoneyVault moneyVault = new MoneyVault();
-        moneyVault.addCashToVault(10000.);
+        moneyVault.addCashToVault(100.);
         atm.setVault(moneyVault);
 
         container.getChildren().remove(pin);
