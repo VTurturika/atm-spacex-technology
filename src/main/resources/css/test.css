@@ -3,7 +3,7 @@ Button:hover{
 }
 Pane{
 -fx-background-image: url("../img/spacex-technology.jpg");
--fx-background-size: 900px;
+-fx-background-size: 600px;
 -fx-background-color: white;
 -fx-background-repeat: no-repeat;
 }
