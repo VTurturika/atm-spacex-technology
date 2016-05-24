@@ -35,12 +35,7 @@ public class ClientController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         container.setVisible(false);
-    }
-
-
-    public void setAtm(AtmClientSingleton atm) {
-        this.atm = atm;
-        System.out.println(atm.getCurrentCard().getCardId());
+        atm = AtmClientSingleton.getInstance();
     }
 
     @FXML
