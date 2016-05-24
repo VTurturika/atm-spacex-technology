@@ -72,6 +72,17 @@ public class ClientController implements Initializable {
 
         loadWidget("showBalance");
         System.out.println("showBalanceAction");
+
+        Scene scene = ((Node)event.getSource()).getScene();
+        TextField textField = (TextField) scene.lookup("#userBalance");
+
+        try {
+            double balance = atm.showBalance();
+            textField.setText(String.valueOf(balance));
+        }
+        catch (RequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
