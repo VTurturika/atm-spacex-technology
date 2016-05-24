@@ -1,6 +1,9 @@
 package userlevel;
 
 import apilevel.AtmClientSingleton;
+import apilevel.BankAccount;
+import apilevel.Person;
+import datalevel.RequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,6 +92,26 @@ public class WorkerController implements Initializable {
     @FXML
     private void addUserAction(ActionEvent event) {
         loadWidget("createNewBankAccount");
+
+        Button createNewBankAccount = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(0);
+        TextField lastName = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(1);
+        TextField firstName = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(2);
+        TextField middleName = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(3);
+        TextField adress = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(4);
+        TextField age = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(5);
+
+        createNewBankAccount.setOnAction(event1 ->  {
+
+            try {
+                Person p = new Person(lastName.getText(), firstName.getText(),
+                                middleName.getText(), adress.getText(), Integer.valueOf(age.getText()));
+                BankAccount account = atm.getServiceWorker().createNewAccount(p, atm.getConnector());
+                showAlert("Successfully create new user\nAccountId = " + account.getAccountId(), "OK", "info");
+            }
+            catch (RequestException e) {
+               showAlert(e.getMessage(), "Error", "error");
+            }
+        });
     }
 
     @FXML
