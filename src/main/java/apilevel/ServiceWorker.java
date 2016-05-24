@@ -63,11 +63,11 @@ public class ServiceWorker {
      * @see BankAccount
      * @see CreditCard
      */
-    public void addNewCreditCard(BankAccount b, DatabaseConnector connector) throws RequestException {
+    public CreditCard addNewCreditCard(BankAccount b, DatabaseConnector connector) throws RequestException {
         try {
             CreditCard creditCard = new CreditCard(connector.addCard(this.serviceKey, b.getAccountId()));
             b.addCard(creditCard);
-
+            return creditCard;
         } catch(RequestException e) {
             throw e;
         }

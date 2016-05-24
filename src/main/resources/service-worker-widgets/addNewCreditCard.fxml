@@ -10,6 +10,5 @@
       <Button fx:id="addNewCreditCard" layoutX="113.0" layoutY="153.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="addNewCreditCard" />
       <TextField fx:id="accountId" layoutX="168.0" layoutY="98.0" promptText="accountId" />
       <Text layoutX="59.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client accountId:" />
-      <Button fx:id="createCardFile" layoutX="113.0" layoutY="213.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="createCardFile" />
    </children>
 </Pane>
