@@ -12,6 +12,9 @@ import datalevel.RequestErrorCode;
 import datalevel.RequestException;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -22,6 +25,7 @@ import java.io.File;
  */
 public class AtmClientSingleton {
     private static final AtmClientSingleton instance = new AtmClientSingleton();
+    private static final ServiceWorker sw = new ServiceWorker("1234567890");
     CreditCard currentCard;
     DatabaseConnector connector;
     MoneyVault vault = new MoneyVault();
@@ -175,6 +179,13 @@ public class AtmClientSingleton {
         } catch(RequestException e) {
             throw e;
         }
+    }
+
+    public List<String> getListOfBlockedCards() throws RequestException {
+        String[] blockedCards = connector.getBlockedCards(sw.getServiceKey());
+        if(blockedCards != null) {
+            return Arrays.asList(blockedCards);
+        } else return new LinkedList<>();
     }
 
     /**

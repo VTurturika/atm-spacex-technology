@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Tests class {@code AtmClientSingleton}
@@ -133,5 +134,22 @@ public class AtmClientSingletonTest {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void getListOfBlockedCards() {
+        try {
+            AtmClientSingleton client = AtmClientSingleton.getInstance();
+            client.setConnector(new DatabaseConnector());
+
+            CreditCard c = new CreditCard();
+            client.blockCard(c);
+            List<String> actual = client.getListOfBlockedCards();
+            Assert.assertEquals(c.getCardId(), actual.get(0));
+            ServiceWorker sw = new ServiceWorker("1234567890");
+            sw.unlockCard(c, new DatabaseConnector());
+        } catch(RequestException e) {
+            e.printStackTrace();
+        }
     }
 }
