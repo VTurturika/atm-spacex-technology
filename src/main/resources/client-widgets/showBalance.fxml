@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="userBalance" alignment="CENTER" editable="false" layoutX="113.0" layoutY="119.0" prefHeight="78.0" prefWidth="149.0" promptText="userBalance" />
+      <Text layoutX="152.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your balance:" />
+   </children>
+</Pane>

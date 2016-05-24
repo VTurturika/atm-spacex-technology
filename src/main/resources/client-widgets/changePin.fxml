@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="userPin" alignment="CENTER" layoutX="151.0" layoutY="76.0" prefWidth="149.0" promptText="XXXX" />
+      <Text layoutX="76.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New PIN:" textAlignment="CENTER" />
+      <Button fx:id="changePin" layoutX="113.0" layoutY="192.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Change PIN" />
+      <Text layoutX="76.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your PIN:" textAlignment="CENTER" />
+      <TextField fx:id="userNewPin1" alignment="CENTER" layoutX="151.0" layoutY="125.0" prefWidth="149.0" promptText="XXXX" />
+   </children>
+</Pane>

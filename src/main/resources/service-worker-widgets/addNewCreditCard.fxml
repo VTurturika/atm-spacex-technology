@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="266.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="addNewCreditCard" layoutX="118.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="addNewCreditCard" />
-      <TextField fx:id="accountId" layoutX="118.0" layoutY="80.0" promptText="accountId" />
-      <Text layoutX="9.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client accountId:" />
-      <Button fx:id="createCardFile" layoutX="118.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="createCardFile" />
+      <Button fx:id="addNewCreditCard" layoutX="113.0" layoutY="153.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="addNewCreditCard" />
+      <TextField fx:id="accountId" layoutX="168.0" layoutY="98.0" promptText="accountId" />
+      <Text layoutX="59.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client accountId:" />
+      <Button fx:id="createCardFile" layoutX="113.0" layoutY="213.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="createCardFile" />
    </children>
 </Pane>
