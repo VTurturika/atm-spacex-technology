@@ -3,8 +3,8 @@ Button:hover{
 }
 
 HBox{
--fx-background-image: url("../img/230701.jpg");
--fx-background-size: 600px;
+-fx-background-image: url("../img/bgc.jpg");
+-fx-background-size: 900px;
 -fx-background-color: white;
 -fx-background-repeat: no-repeat;
 }

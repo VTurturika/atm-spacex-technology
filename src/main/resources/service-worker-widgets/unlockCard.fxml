@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="getCardList" layoutX="62.0" layoutY="104.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="getCardList" />
+      <TextField fx:id="cardID" layoutX="63.0" layoutY="172.0" promptText="cardID" />
+      <Button fx:id="unlockCard" layoutX="223.0" layoutY="172.0" mnemonicParsing="false" prefWidth="90.0" text="Unlock" />
+   </children>
+</Pane>

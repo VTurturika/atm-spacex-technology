@@ -13,10 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,16 +26,11 @@ import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
 
-    @FXML
-    Button login;
-    @FXML
-    Button service;
-    @FXML
-    Button insert;
-    @FXML
-    TextField pin;
-    @FXML
-    HBox container;
+    @FXML Button login;
+    @FXML Button service;
+    @FXML Button insert;
+    @FXML PasswordField pin;
+    @FXML HBox container;
 
     private AtmClientSingleton atm;
 
@@ -84,6 +76,13 @@ public class AppController implements Initializable {
                 return change;
             }
             return null;
+        });
+
+
+        pin.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(pin.getText().length() > 4) {
+                pin.setText(pin.getText().substring(0,4));
+            }
         });
 
         pin.setTextFormatter(textFormatter);
@@ -138,13 +137,9 @@ public class AppController implements Initializable {
             Scene scene = new Scene(root);
 
             if (sceneName.equals("Client")) {
-                ClientController clientController = ((ClientController) loader.getController());
-                clientController.setAtm(atm);
                 scene.getStylesheets().add("/css/client.css");
             } else {
                 if (sceneName.equals("ServiceWorker")) {
-                    WorkerController workerController = ((WorkerController) loader.getController());
-                    workerController.setAtm(atm);
                     scene.getStylesheets().add("/css/service.css");
                 }
                 else {

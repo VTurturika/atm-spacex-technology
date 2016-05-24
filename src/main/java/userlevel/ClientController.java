@@ -28,22 +28,18 @@ public class ClientController implements Initializable {
     @FXML Button showBalance;
     @FXML Button withdrawCash;
     @FXML Button addCash;
+    @FXML Button logout;
     @FXML VBox container;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         container.setVisible(false);
-    }
-
-
-    public void setAtm(AtmClientSingleton atm) {
-        this.atm = atm;
-        System.out.println(atm.getCurrentCard().getCardId());
+        atm = AtmClientSingleton.getInstance();
     }
 
     @FXML
-    private void logout(ActionEvent event) {
+    private void logoutAction(ActionEvent event) {
 
         Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
         try {
@@ -58,7 +54,7 @@ public class ClientController implements Initializable {
     }
 
     @FXML
-    private void showBalance(ActionEvent event) {
+    private void showBalanceAction(ActionEvent event) {
 
         try {
             System.out.println("showBalance started");
@@ -83,7 +79,7 @@ public class ClientController implements Initializable {
     }
 
     @FXML
-    private void addCash(ActionEvent event) {
+    private void addCashAction(ActionEvent event) {
 
         System.out.println("addCash started");
 
@@ -123,4 +119,14 @@ public class ClientController implements Initializable {
         container.getChildren().add(vBox);
     }
 
+    @FXML
+    private void changePinAction(ActionEvent event) {
+        System.out.println("changePinAction");
+    }
+
+
+    @FXML
+    private void withdrawCashAction(ActionEvent event) {
+        System.out.println("withdrawCashAction");
+    }
 }
