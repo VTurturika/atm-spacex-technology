@@ -13,10 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,7 +29,7 @@ public class AppController implements Initializable {
     @FXML Button login;
     @FXML Button service;
     @FXML Button insert;
-    @FXML TextField pin;
+    @FXML PasswordField pin;
     @FXML HBox container;
 
     private AtmClientSingleton atm;
@@ -79,6 +76,13 @@ public class AppController implements Initializable {
                 return change;
             }
             return null;
+        });
+
+
+        pin.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(pin.getText().length() > 4) {
+                pin.setText(pin.getText().substring(0,4));
+            }
         });
 
         pin.setTextFormatter(textFormatter);
