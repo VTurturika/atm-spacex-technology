@@ -10,7 +10,7 @@
       <TextField fx:id="withdrawCash" alignment="CENTER" layoutX="112.0" layoutY="84.0" prefHeight="50.0" prefWidth="150.0" promptText="XXXX" />
       <Text layoutX="108.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type the amount to withdraw:" textAlignment="CENTER" />
       <Text fx:id="errorField" layoutX="121.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="errorField" textAlignment="CENTER" visible="false" />
-      <Button fx:id="withdrawCash" layoutX="112.0" layoutY="209.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Withdraw" />
+      <Button fx:id="withdrawCashButton" layoutX="112.0" layoutY="209.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Withdraw" />
       <Button fx:id="changeNominal" layoutX="112.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Change cash nominal" />
    </children>
 </Pane>

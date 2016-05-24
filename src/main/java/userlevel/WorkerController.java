@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +19,11 @@ import java.util.ResourceBundle;
 
 public class WorkerController implements Initializable {
 
+    @FXML Button addUser;
+    @FXML Button addCard;
+    @FXML Button addCash;
+    @FXML Button unlockCard;
+    @FXML Button logout;
     @FXML VBox container;
 
     private AtmClientSingleton atm;

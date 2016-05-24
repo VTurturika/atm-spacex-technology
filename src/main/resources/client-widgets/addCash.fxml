@@ -10,6 +10,6 @@
       <TextField fx:id="addCash" alignment="CENTER" layoutX="113.0" layoutY="109.0" prefHeight="50.0" prefWidth="150.0" promptText="XXXX" />
       <Text layoutX="122.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type the amount to add:" textAlignment="CENTER" />
       <Text fx:id="errorField" layoutX="121.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="errorField" textAlignment="CENTER" visible="false" />
-      <Button fx:id="addCash" layoutX="113.0" layoutY="171.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Add cash" />
+      <Button fx:id="addCashButton" layoutX="113.0" layoutY="171.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Add cash" />
    </children>
 </Pane>

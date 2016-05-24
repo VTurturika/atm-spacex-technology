@@ -8,37 +8,27 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-
-<VBox fx:controller="userlevel.ClientController" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-              prefHeight="400.0" prefWidth="600.0">
-            <children>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
-                    <children>
-                        <Button fx:id="changePin" onAction="#changePinAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
-                                text="Change Pin"/>
-                        <Button fx:id="showBalance" onAction="#showBalanceAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
-                                text="Show Balance"/>
-                        <Button fx:id="logout" onAction="#logoutAction" alignment="CENTER" contentDisplay="CENTER"
-                                mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0" text="Logout">
-                        </Button>
-                    </children>
-                </VBox>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <VBox fx:id="container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"/>
-                    </children>
-                </VBox>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="20.0">
-                    <children>
-                        <Button fx:id="withdrawCash" onAction="#withdrawCashAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
-                                text="Withdraw Cash"/>
-                        <Button fx:id="addCash" onAction="#addCashAction" mnemonicParsing="false" prefHeight="78.0" prefWidth="122.0"
-                                text="Add Cash"/>
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-    </children>
-</VBox>
+<HBox fx:controller="userlevel.ClientController" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="15.0">
+         <children>
+            <Button fx:id="addCash" mnemonicParsing="false" onAction="#addCashAction" prefHeight="50.0" prefWidth="100.0" text="Add Cash" />
+            <Button fx:id="withdrawCash" mnemonicParsing="false" onAction="#withdrawCashAction" prefHeight="50.0" prefWidth="100.0" text="Withdraw Cash" />
+            <Button fx:id="changePin" mnemonicParsing="false" onAction="#changePinAction" prefHeight="50.0" prefWidth="100.0" text="Change Pin" />
+            <Button fx:id="showBalance" mnemonicParsing="false" onAction="#showBalanceAction" prefHeight="50.0" prefWidth="100.0" text="Show Balance" />
+            <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logoutAction" prefHeight="50.0" prefWidth="100.0" text="Logout" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</HBox>

@@ -34,7 +34,6 @@ public class ClientController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        container.setVisible(false);
         atm = AtmClientSingleton.getInstance();
     }
 
@@ -53,80 +52,45 @@ public class ClientController implements Initializable {
         }
     }
 
+    private void loadWidget(String widgetName) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/client-widgets/" +  widgetName + ".fxml"));
+            Parent widget =  loader.load();
+            container.getChildren().clear();
+            container.getChildren().add(widget);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @FXML
     private void showBalanceAction(ActionEvent event) {
 
-        try {
-            System.out.println("showBalance started");
-
-            double balance = atm.showBalance();
-
-            System.out.println("db query completed");
-
-            container.getChildren().clear();
-            container.setVisible(true);
-
-            Label result = new Label();
-            result.setText("Your balance:\n" + String.valueOf(balance));
-            result.setStyle("-fx-font-family: \"Arial\";\n" +
-                            "-fx-text-alignment: center;\n" +
-                             "-fx-font-size: 20px;");
-            container.getChildren().add(result);
-        }
-        catch (RequestException e) {
-            e.printStackTrace();
-        }
+        loadWidget("showBalance");
+        System.out.println("showBalanceAction");
     }
 
     @FXML
     private void addCashAction(ActionEvent event) {
 
+        loadWidget("addCash");
         System.out.println("addCash started");
-
-        container.getChildren().clear();
-        container.setVisible(true);
-
-        TextField howMuch = new TextField();
-        Label label = new Label("Add your cash:");
-        Button button = new Button("Submit");
-
-        VBox vBox = new VBox(label, howMuch, button);
-        vBox.setSpacing(5);
-        vBox.setPadding(new Insets(5));
-        vBox.setAlignment(Pos.CENTER);
-        howMuch.setAlignment(Pos.CENTER);
-
-        button.setOnAction(event1 -> {
-
-            try {
-                System.out.println("submit callback started");
-                button.setDisable(true);
-                label.setText("Wait");
-                double newBalance = atm.addCash(Double.valueOf(howMuch.getText()));
-                System.out.println("db query completed");
-                label.setText("Current balance:");
-                howMuch.setText(String.valueOf(newBalance));
-               // vBox.getChildren().remove(button);
-
-            }
-            catch (RequestException e) {
-                e.printStackTrace();
-            }
-        });
-
-        button.getStyleClass().add("buttonsx");
-
-        container.getChildren().add(vBox);
     }
 
     @FXML
     private void changePinAction(ActionEvent event) {
+       loadWidget("changePin");
         System.out.println("changePinAction");
     }
 
 
     @FXML
     private void withdrawCashAction(ActionEvent event) {
+        loadWidget("withdrawCash");
         System.out.println("withdrawCashAction");
     }
 }

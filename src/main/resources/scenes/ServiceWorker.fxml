@@ -12,11 +12,11 @@
    <children>
       <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#addUserAction" prefHeight="50.0" prefWidth="100.0" text="Add user" />
-            <Button mnemonicParsing="false" onAction="#addCardAction" prefHeight="50.0" prefWidth="100.0" text="Add Card" />
-            <Button mnemonicParsing="false" onAction="#addCashAction" prefHeight="50.0" prefWidth="100.0" text="Add Cash" />
-            <Button mnemonicParsing="false" onAction="#unlockCardAction" prefHeight="50.0" prefWidth="100.0" text="Unlock Card" />
-            <Button mnemonicParsing="false" onAction="#logoutAction" prefHeight="50.0" prefWidth="100.0" text="Logout" />
+            <Button fx:id="addUser" mnemonicParsing="false" onAction="#addUserAction" prefHeight="50.0" prefWidth="100.0" text="Add user" />
+            <Button fx:id="addCard" mnemonicParsing="false" onAction="#addCardAction" prefHeight="50.0" prefWidth="100.0" text="Add Card" />
+            <Button fx:id="addCash" mnemonicParsing="false" onAction="#addCashAction" prefHeight="50.0" prefWidth="100.0" text="Add Cash" />
+            <Button fx:id="unlockCard" mnemonicParsing="false" onAction="#unlockCardAction" prefHeight="50.0" prefWidth="100.0" text="Unlock Card" />
+            <Button fx:id="logout" mnemonicParsing="false" onAction="#logoutAction" prefHeight="50.0" prefWidth="100.0" text="Logout" />
          </children>
          <HBox.margin>
             <Insets />
