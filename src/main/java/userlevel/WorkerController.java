@@ -141,15 +141,15 @@ public class WorkerController implements Initializable {
         available500.setText(String.valueOf(money.get(500)));
 
         addCash.setOnAction(event1 -> {
-            atm.getVault().addCashToVault(count500.getLength() > 0 ? Double.valueOf(count500.getText()) : 0);
-            atm.getVault().addCashToVault(count200.getLength() > 0 ? Double.valueOf(count200.getText()) : 0);
-            atm.getVault().addCashToVault(count100.getLength() > 0 ? Double.valueOf(count100.getText()) : 0);
-            atm.getVault().addCashToVault(count50.getLength() > 0 ? Double.valueOf(count50.getText()) : 0);
-            atm.getVault().addCashToVault(count20.getLength() > 0 ? Double.valueOf(count20.getText()) : 0);
-            atm.getVault().addCashToVault(count10.getLength() > 0 ? Double.valueOf(count10.getText()) : 0);
-            atm.getVault().addCashToVault(count5.getLength() > 0 ? Double.valueOf(count5.getText()) : 0);
-            atm.getVault().addCashToVault(count2.getLength() > 0 ? Double.valueOf(count2.getText()) : 0);
-            atm.getVault().addCashToVault(count1.getLength() > 0 ? Double.valueOf(count1.getText()) : 0);
+            atm.getVault().addCashToVault(count500.getLength() > 0 ? 500*Double.valueOf(count500.getText()) : 0);
+            atm.getVault().addCashToVault(count200.getLength() > 0 ? 200*Double.valueOf(count200.getText()) : 0);
+            atm.getVault().addCashToVault(count100.getLength() > 0 ? 100*Double.valueOf(count100.getText()) : 0);
+            atm.getVault().addCashToVault(count50.getLength() > 0 ? 50*Double.valueOf(count50.getText()) : 0);
+            atm.getVault().addCashToVault(count20.getLength() > 0 ? 20*Double.valueOf(count20.getText()) : 0);
+            atm.getVault().addCashToVault(count10.getLength() > 0 ? 10*Double.valueOf(count10.getText()) : 0);
+            atm.getVault().addCashToVault(count5.getLength() > 0 ? 5*Double.valueOf(count5.getText()) : 0);
+            atm.getVault().addCashToVault(count2.getLength() > 0 ? 2*Double.valueOf(count2.getText()) : 0);
+            atm.getVault().addCashToVault(count1.getLength() > 0 ? 1*Double.valueOf(count1.getText()) : 0);
 
             showAlert("Cash successfully added", "OK", "info");
         });
