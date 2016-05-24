@@ -11,10 +11,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 public class ClientController implements Initializable {
 
     private AtmClientSingleton atm;
+    private Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     @FXML Button changePin;
     @FXML Button showBalance;
@@ -40,28 +41,41 @@ public class ClientController implements Initializable {
     @FXML
     private void logoutAction(ActionEvent event) {
 
-        Stage stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        Stage stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/app.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add("/css/test.css");
             stage.setScene(scene);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String message, String headed, String type) {
+
+        alert.setHeaderText(headed);
+        alert.setContentText(message);
+
+        if(type.equals("error")) {
+            alert.setAlertType(Alert.AlertType.ERROR);
+        }
+        else {
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+        }
+
+        alert.showAndWait();
     }
 
     private void loadWidget(String widgetName) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/client-widgets/" +  widgetName + ".fxml"));
-            Parent widget =  loader.load();
+            loader.setLocation(getClass().getResource("/client-widgets/" + widgetName + ".fxml"));
+            Parent widget = loader.load();
             container.getChildren().clear();
             container.getChildren().add(widget);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,16 +85,14 @@ public class ClientController implements Initializable {
     private void showBalanceAction(ActionEvent event) {
 
         loadWidget("showBalance");
-        System.out.println("showBalanceAction");
 
-        Scene scene = ((Node)event.getSource()).getScene();
+        Scene scene = ((Node) event.getSource()).getScene();
         TextField textField = (TextField) scene.lookup("#userBalance");
 
         try {
             double balance = atm.showBalance();
             textField.setText(String.valueOf(balance));
-        }
-        catch (RequestException e) {
+        } catch (RequestException e) {
             e.printStackTrace();
         }
     }
@@ -94,8 +106,25 @@ public class ClientController implements Initializable {
 
     @FXML
     private void changePinAction(ActionEvent event) {
-       loadWidget("changePin");
+
+        loadWidget("changePin");
         System.out.println("changePinAction");
+
+        Scene scene = ((Node) event.getSource()).getScene();
+        PasswordField userPin = (PasswordField) scene.lookup("#userPin");
+        PasswordField userNewPin = (PasswordField) scene.lookup("#userNewPin");
+        Button changePin =  (Button) ((Pane)container.getChildren().get(0)).getChildren().get(2);
+
+        changePin.setOnAction(event1 -> {
+            try {
+                atm.changePin(userNewPin.getText());
+                showAlert("Successfully changed PIN code", "OK", "info");
+
+            }
+            catch (RequestException e) {
+                showAlert(e.getMessage(), "Error", "error");
+            }
+        });
     }
 
 
