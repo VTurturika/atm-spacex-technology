@@ -3,6 +3,7 @@ package userlevel;
 import apilevel.AtmClientSingleton;
 import apilevel.MoneyVault;
 import datalevel.DatabaseConnector;
+import datalevel.RequestErrorCode;
 import datalevel.RequestException;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -32,6 +33,7 @@ public class AppController implements Initializable {
     @FXML PasswordField pin;
     @FXML HBox container;
 
+    private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     private AtmClientSingleton atm;
 
     private Service<Void> loginTask = new Service<Void>() {
@@ -43,10 +45,10 @@ public class AppController implements Initializable {
 
                     try {
                         atm.setConnector(new DatabaseConnector());
-                        insert.setDisable(false);
+
                     } catch (RequestException e) {
-                        insert.setDisable(true);
-                        insert.setText(e.getMessage());
+
+                        throw e;
                     }
                     return null;
                 }
@@ -63,12 +65,31 @@ public class AppController implements Initializable {
         moneyVault.addCashToVault(10000.);
         atm.setVault(moneyVault);
 
-        insert.setDisable(true);
-
         container.getChildren().remove(pin);
         container.getChildren().remove(login);
 
         loginTask.start();
+        insert.setDisable(true);
+        insert.setText("Connecting...");
+
+        loginTask.setOnSucceeded(event -> {
+            insert.setDisable(false);
+            insert.setOnAction(event1 -> insertCard(event1));
+            insert.setText("Insert card");
+        });
+
+        loginTask.setOnFailed(event -> {
+            System.out.println(event.getSource().getException().getMessage());
+            insert.setText("Retry connect");
+            insert.setDisable(false);
+
+            insert.setOnAction(event1 -> {
+                insert.setDisable(true);
+                insert.setText("Connecting...");
+                loginTask.reset();
+                loginTask.start();
+            });
+        });
 
         TextFormatter<String> textFormatter = new TextFormatter<>(change -> {
             String text = change.getText();
@@ -117,7 +138,15 @@ public class AppController implements Initializable {
             atm.showBalance();
             loadScene("Client", event);
         } catch (RequestException e) {
-            e.printStackTrace();
+
+            if(e.getErrorCode() == RequestErrorCode.LOGIN_ERROR) {
+
+               errorAlert.setHeaderText("Login error");
+               errorAlert.getButtonTypes().clear();
+               errorAlert.getButtonTypes().addAll(ButtonType.OK);
+               errorAlert.showAndWait();
+            }
+
         }
     }
 
