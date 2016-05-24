@@ -1,7 +1,9 @@
 package userlevel;
 
 import apilevel.AtmClientSingleton;
+import apilevel.FileOperations;
 import apilevel.MoneyVault;
+import apilevel.ServiceWorker;
 import datalevel.DatabaseConnector;
 import datalevel.RequestErrorCode;
 import datalevel.RequestException;
@@ -153,7 +155,25 @@ public class AppController implements Initializable {
     @FXML
     private void serviceWorkerScene(ActionEvent event) {
 
-        loadScene("ServiceWorker", event);
+        FileChooser fileChooser = new FileChooser();
+        Stage stage = (Stage) insert.getScene().getWindow();
+
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Service Worker Key (*.swkey)", "*.swkey"));
+        File file = fileChooser.showOpenDialog(stage);
+
+        if(file != null ) {
+
+            try {
+                String swKey = FileOperations.readServiceKeyFromFile(file);
+                ServiceWorker worker = new ServiceWorker(swKey);
+                atm.setServiceWorker(worker);
+                loadScene("ServiceWorker", event);
+            }
+            catch (RequestException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void loadScene(String sceneName, ActionEvent event) {

@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class AtmClientSingleton {
     private static final AtmClientSingleton instance = new AtmClientSingleton();
-    private static final ServiceWorker sw = new ServiceWorker("1234567890");
+    private ServiceWorker serviceWorker = null;
     CreditCard currentCard;
     DatabaseConnector connector;
     MoneyVault vault = new MoneyVault();
@@ -82,6 +82,14 @@ public class AtmClientSingleton {
             this.currentCard = null;
             throw e;
         }
+    }
+
+    public ServiceWorker getServiceWorker() {
+        return serviceWorker;
+    }
+
+    public void setServiceWorker(ServiceWorker serviceWorker) {
+        this.serviceWorker = serviceWorker;
     }
 
     /**
@@ -182,7 +190,7 @@ public class AtmClientSingleton {
     }
 
     public List<String> getListOfBlockedCards() throws RequestException {
-        String[] blockedCards = connector.getBlockedCards(sw.getServiceKey());
+        String[] blockedCards = connector.getBlockedCards(serviceWorker.getServiceKey());
         if(blockedCards != null) {
             return Arrays.asList(blockedCards);
         } else return new LinkedList<>();

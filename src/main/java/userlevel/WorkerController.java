@@ -26,6 +26,7 @@ public class WorkerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         atm = AtmClientSingleton.getInstance();
+        System.out.println(atm.getServiceWorker().getServiceKey());
     }
 
     private void loadWidget(String widgetName) {
