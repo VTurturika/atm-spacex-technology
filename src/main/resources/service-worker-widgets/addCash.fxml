@@ -7,37 +7,37 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <TextField fx:id="available500" disable="true" editable="false" layoutX="79.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available200" disable="true" editable="false" layoutX="79.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available100" disable="true" editable="false" layoutX="79.0" layoutY="134.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available50" disable="true" editable="false" layoutX="79.0" layoutY="164.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available20" disable="true" editable="false" layoutX="79.0" layoutY="198.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available10" disable="true" editable="false" layoutX="79.0" layoutY="233.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available5" disable="true" editable="false" layoutX="246.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available2" disable="true" editable="false" layoutX="247.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="available1" disable="true" editable="false" layoutX="247.0" layoutY="140.0" prefHeight="25.0" prefWidth="35.0" promptText="available" alignment="CENTER"/>
+      <TextField fx:id="count500" layoutX="125.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count200" layoutX="125.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count100" layoutX="125.0" layoutY="134.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count50" layoutX="125.0" layoutY="164.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count20" layoutX="125.0" layoutY="198.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count10" layoutX="125.0" layoutY="233.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count5" layoutX="292.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count2" layoutX="293.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
+      <TextField fx:id="count1" layoutX="293.0" layoutY="140.0" prefHeight="25.0" prefWidth="35.0" promptText="count" alignment="CENTER"/>
       <Button fx:id="addCash" layoutX="212.0" layoutY="185.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="119.0" text="addCash" />
-      <TextField fx:id="available500" disable="true" editable="false" layoutX="79.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
+      <Text layoutX="240.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available" textAlignment="CENTER" />
+      <Text layoutX="300.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" textAlignment="CENTER" />
       <Text layoutX="45.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="500" />
-      <TextField fx:id="available200" disable="true" editable="false" layoutX="79.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="45.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="200" />
-      <TextField fx:id="available100" disable="true" editable="false" layoutX="79.0" layoutY="134.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="45.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100" />
-      <TextField fx:id="available50" disable="true" editable="false" layoutX="79.0" layoutY="164.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="45.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="50" />
-      <TextField fx:id="available20" disable="true" editable="false" layoutX="79.0" layoutY="198.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="45.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-      <TextField fx:id="available10" disable="true" editable="false" layoutX="79.0" layoutY="233.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="45.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-      <TextField fx:id="available5" disable="true" editable="false" layoutX="246.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="212.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
-      <TextField fx:id="available2" disable="true" editable="false" layoutX="247.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="213.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" />
-      <TextField fx:id="available1" disable="true" editable="false" layoutX="247.0" layoutY="140.0" prefHeight="25.0" prefWidth="35.0" promptText="available" />
       <Text layoutX="213.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
       <Text layoutX="73.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available" textAlignment="CENTER" />
       <Text layoutX="132.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" textAlignment="CENTER" />
-      <TextField fx:id="count500" layoutX="125.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count200" layoutX="125.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count100" layoutX="125.0" layoutY="134.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count50" layoutX="125.0" layoutY="164.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count20" layoutX="125.0" layoutY="198.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count10" layoutX="125.0" layoutY="233.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count5" layoutX="292.0" layoutY="71.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count2" layoutX="293.0" layoutY="103.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <TextField fx:id="count1" layoutX="293.0" layoutY="140.0" prefHeight="25.0" prefWidth="35.0" promptText="count" />
-      <Text layoutX="240.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available" textAlignment="CENTER" />
-      <Text layoutX="300.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" textAlignment="CENTER" />
    </children>
 </Pane>
