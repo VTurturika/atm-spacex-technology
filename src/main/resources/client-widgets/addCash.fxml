@@ -8,8 +8,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="addCash" alignment="CENTER" layoutX="113.0" layoutY="109.0" prefHeight="50.0" prefWidth="150.0" promptText="XXXX" />
-      <Text layoutX="122.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type the amount to add:" textAlignment="CENTER" />
-      <Text fx:id="errorField" layoutX="121.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="errorField" textAlignment="CENTER" visible="false" />
       <Button fx:id="addCashButton" layoutX="113.0" layoutY="171.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Add cash" />
+      <Text layoutX="122.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type the amount to add:" textAlignment="CENTER" />
    </children>
 </Pane>

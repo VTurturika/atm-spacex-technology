@@ -102,13 +102,26 @@ public class ClientController implements Initializable {
 
         loadWidget("addCash");
         System.out.println("addCash started");
+
+        TextField addCash = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(0);
+        Button addCashButton =  (Button) ((Pane)container.getChildren().get(0)).getChildren().get(1);
+
+        addCashButton.setOnAction(event1 -> {
+            try {
+                double addValue = Double.valueOf(addCash.getText());
+                double currentBalanse = atm.addCash(addValue);
+                showAlert("Successfully added\nCurrent balance: " + String.valueOf(currentBalanse), "OK", "info");
+            }
+            catch (RequestException e) {
+                showAlert(e.getMessage(), "Error", "error");
+            }
+        });
     }
 
     @FXML
     private void changePinAction(ActionEvent event) {
 
         loadWidget("changePin");
-        System.out.println("changePinAction");
 
         Scene scene = ((Node) event.getSource()).getScene();
         PasswordField userPin = (PasswordField) scene.lookup("#userPin");
