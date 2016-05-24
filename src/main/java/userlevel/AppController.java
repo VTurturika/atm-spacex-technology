@@ -137,13 +137,9 @@ public class AppController implements Initializable {
             Scene scene = new Scene(root);
 
             if (sceneName.equals("Client")) {
-                ClientController clientController = ((ClientController) loader.getController());
-                clientController.setAtm(atm);
                 scene.getStylesheets().add("/css/client.css");
             } else {
                 if (sceneName.equals("ServiceWorker")) {
-                    WorkerController workerController = ((WorkerController) loader.getController());
-                    workerController.setAtm(atm);
                     scene.getStylesheets().add("/css/service.css");
                 }
                 else {

@@ -25,10 +25,7 @@ public class WorkerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-    }
-
-    public void setAtm(AtmClientSingleton atm) {
-        this.atm = atm;
+        atm = AtmClientSingleton.getInstance();
     }
 
     private void loadWidget(String widgetName) {
