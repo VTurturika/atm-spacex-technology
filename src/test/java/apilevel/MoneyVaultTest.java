@@ -89,6 +89,8 @@ public class MoneyVaultTest {
             MoneyVault expected = new MoneyVault();
             expected.addCashToVault(250. - 105.);
             Assert.assertEquals(expected.getCashValue(), mv.getCashValue(), DELTA);
+            mv.addCashToVault(100.);
+            mv.withdrawCash(23.);
         } catch(RequestException e) {
             e.printStackTrace();
         }

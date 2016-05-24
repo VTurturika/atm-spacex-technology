@@ -62,6 +62,13 @@ public class MoneyVault {
      */
     public Map<Integer, Integer> withdrawCash(Double cash) throws RequestException {
         if(!hasMoney(cash)) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
+        int howMuchMoney = 0;
+        for(int i = 0; i < notes.length; i++) {
+            if(notes[i] <= cash) {
+                howMuchMoney += notes[i] * vault.get(notes[i]);
+            }
+        }
+        if(howMuchMoney < cash) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
         while(cash != 0) {
             for(int i = notes.length - 1; i > 0; i--) {
                 if(cash % notes[i] == 0) {
