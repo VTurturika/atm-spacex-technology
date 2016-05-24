@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -15,6 +17,8 @@ import java.util.ResourceBundle;
 
 
 public class WorkerController implements Initializable {
+
+    @FXML VBox container;
 
     private AtmClientSingleton atm;
 
@@ -25,6 +29,21 @@ public class WorkerController implements Initializable {
 
     public void setAtm(AtmClientSingleton atm) {
         this.atm = atm;
+    }
+
+    private void loadWidget(String widgetName) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/service-worker-widgets/" +  widgetName + ".fxml"));
+
+            Parent widget =  loader.load();
+            container.getChildren().clear();
+            container.getChildren().add(widget);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -44,21 +63,21 @@ public class WorkerController implements Initializable {
 
     @FXML
     private void addUserAction(ActionEvent event) {
-        System.out.println("addUserAction");
+        loadWidget("createNewBankAccount");
     }
 
     @FXML
     private void addCardAction(ActionEvent event) {
-        System.out.println("addCardAction");
+        loadWidget("addNewCreditCard");
     }
 
     @FXML
-    private void unblockCardAction(ActionEvent event) {
-        System.out.println("unblockCardAction");
+    private void unlockCardAction(ActionEvent event) {
+        loadWidget("unlockCard");
     }
 
     @FXML
     private void addCashAction(ActionEvent event) {
-        System.out.println("addCashAction");
+        loadWidget("addCash");
     }
 }
