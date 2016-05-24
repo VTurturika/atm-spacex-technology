@@ -70,11 +70,12 @@ public class MoneyVault {
         }
         if(howMuchMoney < cash) throw new RequestException(RequestErrorCode.NOT_ENOUGH_MONEY_IN_VAULT);
         while(cash != 0) {
-            for(int i = notes.length - 1; i > 0; i--) {
+            for(int i = notes.length - 1; i >= 0; i--) {
                 if(cash % notes[i] == 0) {
                     cash -= notes[i];
                     vault.put(notes[i], vault.get(notes[i]) - 1);
                     if(cash == 0) return vault;
+                    break;
                 }
             }
         }
@@ -141,6 +142,7 @@ public class MoneyVault {
                     cash -= notes[i];
                     vault.put(notes[i], vault.get(notes[i]) + 1);
                     if(cash == 0) return vault;
+                    break;
                 }
             }
         }
