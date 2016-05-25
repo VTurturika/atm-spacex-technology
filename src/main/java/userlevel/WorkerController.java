@@ -14,7 +14,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -22,6 +24,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -156,6 +160,44 @@ public class WorkerController implements Initializable {
     @FXML
     private void unlockCardAction(ActionEvent event) {
         loadWidget("unlockCard");
+
+        Button getCardList = (Button) ((Pane) container.getChildren().get(0)).getChildren().get(0);
+        VBox blockedCardsContainer = (VBox) ((ScrollPane)container.getChildren().get(1)).getContent();
+
+        getCardList.setOnAction(event1 -> {
+            try {
+                List<String> blockedCards = atm.getListOfBlockedCards();
+                if (blockedCards != null ) {
+                    int n = blockedCards.size();
+
+                    Map<Button, TextField> map = new HashMap<>(n);
+                    for(int i = 0; i<n; i++) {
+                        HBox hBox = FXMLLoader.load(getClass().getResource("/service-worker-widgets/blockedCardWidget.fxml"));
+
+                        TextField textField = (TextField) hBox.getChildren().get(0);
+                        Button button =  (Button) hBox.getChildren().get(1);
+
+                        button.setOnAction(event2 -> {
+                            String cardId =map.get(button).getText();
+                            try {
+                                atm.getServiceWorker().unlockCard(new CreditCard(cardId), atm.getConnector());
+                                //HBox parent = atm.
+                            }
+                            catch (RequestException e) {
+
+                            }
+                        });
+
+                        map.put(button, textField);
+                    }
+
+                }
+            }
+            catch (Exception e) {
+                showAlert(e.getMessage(), "Error", "error");
+            }
+        });
+
     }
 
     @FXML

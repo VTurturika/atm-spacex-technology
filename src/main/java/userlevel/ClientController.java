@@ -161,6 +161,65 @@ public class ClientController implements Initializable {
 
         changeNominal.setOnAction(event1 -> {
             loadWidget("withdrawCash_pro");
+
+
+            TextField withdrawCashField = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(0);
+
+            TextField extradited500 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(1);
+            TextField extradited200 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(2);
+            TextField extradited100 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(3);
+            TextField extradited50 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(4);
+            TextField extradited20 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(5);
+            TextField extradited10 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(6);
+            TextField extradited5 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(7);
+            TextField extradited2 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(8);
+            TextField extradited1 = (TextField) ((Pane)container.getChildren().get(0)).getChildren().get(9);
+
+            Button withdraw = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(10);
+            Button clear = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(11);
+            Button recalcButton = (Button) ((Pane)container.getChildren().get(0)).getChildren().get(12);
+
+            recalcButton.setOnAction(event2 -> {
+
+                int n500 = Integer.valueOf(extradited500.getText());
+                int n200 = Integer.valueOf(extradited200.getText());
+                int n100 = Integer.valueOf(extradited100.getText());
+                int n50 = Integer.valueOf(extradited50.getText());
+                int n20 = Integer.valueOf(extradited20.getText());
+                int n10 = Integer.valueOf(extradited10.getText());
+                int n5 = Integer.valueOf(extradited5.getText());
+                int n2 = Integer.valueOf(extradited2.getText());
+                int n1 = Integer.valueOf(extradited1.getText());
+
+                withdrawCashField.setText(String.valueOf(n500*500 + n200*200 +n100*100 +n50*50 +n20*20 +n10*10 +n5*5 +n2*2 +n1));
+            });
+
+            clear.setOnAction(event2 -> {
+                extradited1.setText("0");
+                extradited2.setText("0");
+                extradited5.setText("0");
+                extradited10.setText("0");
+                extradited20.setText("0");
+                extradited50.setText("0");
+                extradited100.setText("0");
+                extradited200.setText("0");
+                extradited500.setText("0");
+                withdrawCashField.setText("0");
+            });
+
+            withdraw.setOnAction(event2 ->  {
+                try {
+                    double w = Double.valueOf(withdrawCashField.getText());
+                    double currentBalance = atm.withdrawCash(w);
+                    showAlert("Successfully withdraw\nCurrent balance: " + String.valueOf(currentBalance), "OK", "info");
+                }
+                catch (RequestException e) {
+                    showAlert(e.getMessage(), "Error", "error");
+                }
+            });
+
         });
+
+
     }
 }
