@@ -24,16 +24,22 @@ import javafx.stage.Stage;
 import javax.swing.text.TabExpander;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class AppController implements Initializable {
 
-    @FXML Button login;
-    @FXML Button service;
-    @FXML Button insert;
-    @FXML PasswordField pin;
-    @FXML HBox container;
+    @FXML
+    Button login;
+    @FXML
+    Button service;
+    @FXML
+    Button insert;
+    @FXML
+    PasswordField pin;
+    @FXML
+    HBox container;
 
     private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     private AtmClientSingleton atm;
@@ -103,8 +109,8 @@ public class AppController implements Initializable {
 
 
         pin.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(pin.getText().length() > 4) {
-                pin.setText(pin.getText().substring(0,4));
+            if (pin.getText().length() > 4) {
+                pin.setText(pin.getText().substring(0, 4));
             }
         });
 
@@ -136,19 +142,38 @@ public class AppController implements Initializable {
     @FXML
     private void loginUser(ActionEvent event) {
         try {
+            if(atm.cardIsLocked()) {
+                throw new RequestException(RequestErrorCode.CARD_BLOCKED);
+            }
             atm.getCurrentCard().setPinCode(pin.getText());
             atm.showBalance();
             loadScene("Client", event);
+
         } catch (RequestException e) {
 
             if(e.getErrorCode() == RequestErrorCode.LOGIN_ERROR) {
 
-               errorAlert.setHeaderText("Login error");
-               errorAlert.getButtonTypes().clear();
-               errorAlert.getButtonTypes().addAll(ButtonType.OK);
-               errorAlert.showAndWait();
+                errorAlert.setHeaderText("Login error");
+                errorAlert.getButtonTypes().clear();
+                errorAlert.getButtonTypes().addAll(ButtonType.OK);
+                errorAlert.showAndWait();
             }
+            else if(e.getErrorCode() == RequestErrorCode.CARD_BLOCKED) {
 
+                errorAlert.setHeaderText("Card is locked");
+                errorAlert.getButtonTypes().clear();
+                errorAlert.getButtonTypes().addAll(ButtonType.OK);
+                errorAlert.showAndWait();
+
+                container.getChildren().clear();
+                container.getChildren().add(insert);
+            }
+            else {
+                errorAlert.setHeaderText(e.getMessage());
+                errorAlert.getButtonTypes().clear();
+                errorAlert.getButtonTypes().addAll(ButtonType.OK);
+                errorAlert.showAndWait();
+            }
         }
     }
 
@@ -156,21 +181,20 @@ public class AppController implements Initializable {
     private void serviceWorkerScene(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-        Stage stage = (Stage) insert.getScene().getWindow();
+        Stage stage = (Stage) container.getScene().getWindow();
 
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Service Worker Key (*.swkey)", "*.swkey"));
         File file = fileChooser.showOpenDialog(stage);
 
-        if(file != null ) {
+        if (file != null) {
 
             try {
                 String swKey = FileOperations.readServiceKeyFromFile(file);
                 ServiceWorker worker = new ServiceWorker(swKey);
                 atm.setServiceWorker(worker);
                 loadScene("ServiceWorker", event);
-            }
-            catch (RequestException e) {
+            } catch (RequestException e) {
                 e.printStackTrace();
             }
         }
@@ -190,8 +214,7 @@ public class AppController implements Initializable {
             } else {
                 if (sceneName.equals("ServiceWorker")) {
                     scene.getStylesheets().add("/css/service.css");
-                }
-                else {
+                } else {
                     scene.getStylesheets().add("test.css");
                 }
             }

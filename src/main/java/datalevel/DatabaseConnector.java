@@ -46,6 +46,20 @@ public class DatabaseConnector {
         }
     }
 
+    public boolean cardIsLocked(String cardID) throws RequestException {
+        if(!isValidCardId(cardID)) throw new RequestException(RequestErrorCode.WRONG_CARD_ID);
+        try {
+            HttpResponse<String> response = Unirest.post(databaseLocation + "/customer/check-if-locked")
+                    .queryString("cardID",cardID)
+                    .asString();
+
+           return !parseStringResponse(response.getBody());
+
+        }catch (UnirestException e) {
+            throw new RequestException(RequestErrorCode.CONNECTION_ERROR);
+        }
+    }
+
     /**
      * Checks PIN code and receives specified sum from credit card
      *
@@ -492,6 +506,8 @@ public class DatabaseConnector {
             case "OK":
                 return true;
             case "LOGIN_ERROR":
+                return false;
+            case "CARD_BLOCKED":
                 return false;
             default:
                 throw new RequestException(RequestErrorCode.FATAL_ERROR);

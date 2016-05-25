@@ -1,5 +1,7 @@
 package datalevel;
 
+import java.util.AbstractCollection;
+
 import static org.junit.Assert.*;
 
 /**
@@ -10,7 +12,7 @@ public class DatabaseConnectorTest {
     public void checkPin() throws Exception {
 
         DatabaseConnector connector = new DatabaseConnector();
-        assertTrue(connector.checkPin("1111222233334444", "0000"));
+        assertTrue(connector.checkPin("1111222233334444", "1111"));
         assertFalse(connector.checkPin("0000111122223333", "0001"));
         assertFalse(connector.checkPin("0111222233334444", "0000"));
 
@@ -18,6 +20,18 @@ public class DatabaseConnectorTest {
         try {connector.checkPin("0000111122223333", "qwerty");}catch (RequestException r) {
             System.out.println(r.getErrorCode());
         }
+    }
+
+    @org.junit.Test
+    public void cardIdLocked() throws Exception {
+
+        DatabaseConnector connector = new DatabaseConnector();
+
+        connector.blockCard("1111222233334444");
+        assertTrue(connector.cardIsLocked("1111222233334444"));
+        connector.unblockCard("1234567890", "1111222233334444");
+        assertFalse(connector.cardIsLocked("1111222233334444"));
+
     }
 
     @org.junit.Test

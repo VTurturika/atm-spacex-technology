@@ -68,6 +68,7 @@ public class AtmClientSingleton {
         this.currentCard = currentCard;
     }
 
+
     /**
      * Sets currentCard from specified binary file
      *
@@ -106,6 +107,15 @@ public class AtmClientSingleton {
             catchRequestExceptionWhenPinUsed(e);
         }
         return currentCard.getBalance();
+    }
+
+    public boolean cardIsLocked() throws RequestException {
+        try {
+            return connector.cardIsLocked(currentCard.getCardId());
+        }
+        catch (RequestException e) {
+            throw  e;
+        }
     }
 
     /**
@@ -210,18 +220,18 @@ public class AtmClientSingleton {
         }
     }
 
-    private boolean checkIfWrongPin(String message) {
-        return message.equals(RequestErrorCode.WRONG_PIN.toString());
+    private boolean checkIfWrongPin(RequestException message) {
+        return message.getErrorCode() == RequestErrorCode.LOGIN_ERROR;
     }
 
     private void catchRequestExceptionWhenPinUsed(RequestException e) throws RequestException {
 
-        if(checkIfWrongPin(e.getMessage())) {
+        if(checkIfWrongPin(e)) {
             if(currentCard.setTryCounter(currentCard.getTryCounter() + 1)) {
                 blockCard(currentCard);
                 throw new RequestException(RequestErrorCode.CARD_BLOCKED);
             }
-            throw new RequestException(RequestErrorCode.WRONG_PIN);
+            throw new RequestException(RequestErrorCode.LOGIN_ERROR);
         }
         throw e;
     }
